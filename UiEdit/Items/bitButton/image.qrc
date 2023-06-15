@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Bit Button.png</file>
+        <file>off.png</file>
+        <file>on.png</file>
+    </qresource>
+</RCC>

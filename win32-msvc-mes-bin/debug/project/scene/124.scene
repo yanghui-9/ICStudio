@@ -1,0 +1,264 @@
+{
+    "background_color": null,
+    "background_type": null,
+    "window": null,
+    "z_items": [
+        {
+            "z_class_name": "combine",
+            "z_h": 382,
+            "z_items": [
+                {
+                    "off_img": null,
+                    "on_img": null,
+                    "z_class_name": "Bit Button",
+                    "z_h": 160,
+                    "z_w": 271,
+                    "z_x": 113,
+                    "z_y": 5
+                },
+                {
+                    "off_img": null,
+                    "on_img": null,
+                    "z_class_name": "Bit Button",
+                    "z_h": 151,
+                    "z_w": 226,
+                    "z_x": 5,
+                    "z_y": 226
+                }
+            ],
+            "z_w": 390,
+            "z_x": 13,
+            "z_y": 165
+        },
+        {
+            "off_img": null,
+            "on_img": null,
+            "z_class_name": "combine",
+            "z_h": 301,
+            "z_items": [
+                {
+                    "off_img": null,
+                    "on_img": null,
+                    "z_class_name": "Bit Button",
+                    "z_h": 150,
+                    "z_name": "",
+                    "z_w": 192,
+                    "z_x": 0,
+                    "z_y": 0
+                },
+                {
+                    "off_img": null,
+                    "on_img": null,
+                    "z_class_name": "Bit Button",
+                    "z_h": 150,
+                    "z_name": "",
+                    "z_w": 192,
+                    "z_x": 192,
+                    "z_y": 150
+                }
+            ],
+            "z_w": 384,
+            "z_x": 966,
+            "z_y": 47
+        },
+        {
+            "z_class_name": "combine",
+            "z_h": 465,
+            "z_items": [
+                {
+                    "off_img": null,
+                    "on_img": null,
+                    "z_class_name": "Bit Button",
+                    "z_h": 194,
+                    "z_w": 236,
+                    "z_x": 98,
+                    "z_y": 6
+                },
+                {
+                    "off_img": null,
+                    "on_img": null,
+                    "z_class_name": "Bit Button",
+                    "z_h": 183,
+                    "z_w": 197,
+                    "z_x": 4,
+                    "z_y": 275
+                }
+            ],
+            "z_w": 341,
+            "z_x": 532,
+            "z_y": 135
+        },
+        {
+            "z_class_name": "combine",
+            "z_h": 90,
+            "z_items": [
+                {
+                    "off_img": null,
+                    "on_img": null,
+                    "z_class_name": "Bit Button",
+                    "z_h": 75,
+                    "z_w": 126,
+                    "z_x": 5,
+                    "z_y": 7
+                },
+                {
+                    "off_img": null,
+                    "on_img": null,
+                    "z_class_name": "Bit Button",
+                    "z_h": 80,
+                    "z_w": 152,
+                    "z_x": 133,
+                    "z_y": 5
+                }
+            ],
+            "z_w": 290,
+            "z_x": 887,
+            "z_y": 316
+        },
+        {
+            "z_class_name": "combine",
+            "z_h": 231,
+            "z_items": [
+                {
+                    "off_img": null,
+                    "on_img": null,
+                    "z_class_name": "Bit Button",
+                    "z_h": 96,
+                    "z_w": 271,
+                    "z_x": 113,
+                    "z_y": 3
+                },
+                {
+                    "off_img": null,
+                    "on_img": null,
+                    "z_class_name": "Bit Button",
+                    "z_h": 91,
+                    "z_w": 226,
+                    "z_x": 5,
+                    "z_y": 136
+                }
+            ],
+            "z_w": 391,
+            "z_x": 868,
+            "z_y": 451
+        },
+        {
+            "z_class_name": "combine",
+            "z_h": 205,
+            "z_items": [
+                {
+                    "off_img": null,
+                    "on_img": null,
+                    "z_class_name": "Bit Button",
+                    "z_h": 85,
+                    "z_w": 162,
+                    "z_x": 67,
+                    "z_y": 2
+                },
+                {
+                    "off_img": null,
+                    "on_img": null,
+                    "z_class_name": "Bit Button",
+                    "z_h": 81,
+                    "z_w": 135,
+                    "z_x": 3,
+                    "z_y": 121
+                }
+            ],
+            "z_w": 234,
+            "z_x": 251,
+            "z_y": 404
+        },
+        {
+            "z_class_name": "combine",
+            "z_h": 102,
+            "z_items": [
+                {
+                    "off_img": null,
+                    "on_img": null,
+                    "z_class_name": "Bit Button",
+                    "z_h": 85,
+                    "z_w": 123,
+                    "z_x": 4,
+                    "z_y": 7
+                },
+                {
+                    "off_img": null,
+                    "on_img": null,
+                    "z_class_name": "Bit Button",
+                    "z_h": 90,
+                    "z_w": 148,
+                    "z_x": 130,
+                    "z_y": 5
+                }
+            ],
+            "z_w": 284,
+            "z_x": 1392,
+            "z_y": 102
+        },
+        {
+            "z_class_name": "combine",
+            "z_h": 122,
+            "z_items": [
+                {
+                    "background_color": 14474460,
+                    "background_type": 0,
+                    "scene": "122",
+                    "text": "切换",
+                    "z_class_name": "Scene Button",
+                    "z_h": 50,
+                    "z_w": 132,
+                    "z_x": 105,
+                    "z_y": 67
+                },
+                {
+                    "background_color": 14474460,
+                    "background_type": 0,
+                    "scene": "1254",
+                    "text": "切换到首页",
+                    "z_class_name": "Scene Button",
+                    "z_h": 52,
+                    "z_w": 170,
+                    "z_x": 5,
+                    "z_y": 5
+                }
+            ],
+            "z_w": 242,
+            "z_x": 136,
+            "z_y": 33
+        },
+        {
+            "z_class_name": "combine",
+            "z_h": 215,
+            "z_items": [
+                {
+                    "background_color": 14474460,
+                    "background_type": 0,
+                    "scene": "122",
+                    "text": "切换",
+                    "z_class_name": "Scene Button",
+                    "z_h": 88,
+                    "z_w": 144,
+                    "z_x": 114,
+                    "z_y": 118
+                },
+                {
+                    "background_color": 14474460,
+                    "background_type": 0,
+                    "scene": "1254",
+                    "text": "切换到首页",
+                    "z_class_name": "Scene Button",
+                    "z_h": 91,
+                    "z_w": 185,
+                    "z_x": 5,
+                    "z_y": 8
+                }
+            ],
+            "z_w": 264,
+            "z_x": 510,
+            "z_y": 102
+        }
+    ],
+    "z_name": "NEW000",
+    "z_type": 0
+}

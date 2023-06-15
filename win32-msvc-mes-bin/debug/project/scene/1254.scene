@@ -1,0 +1,62 @@
+{
+    "background_color": null,
+    "background_type": null,
+    "window": null,
+    "z_items": [
+        {
+            "off_img": null,
+            "on_img": null,
+            "z_class_name": "Bit Button",
+            "z_h": 140,
+            "z_w": 196,
+            "z_x": 162,
+            "z_y": 144
+        },
+        {
+            "background_color": 14474460,
+            "background_type": 0,
+            "scene": "157",
+            "text": "切换到157画面",
+            "z_class_name": "Scene Button",
+            "z_h": 59,
+            "z_w": 103,
+            "z_x": 44,
+            "z_y": 34
+        },
+        {
+            "background_color": 14474460,
+            "background_type": 0,
+            "scene": "122",
+            "text": "切换到122画面",
+            "z_class_name": "Scene Button",
+            "z_h": 59,
+            "z_w": 103,
+            "z_x": 175,
+            "z_y": 37
+        },
+        {
+            "background_color": 14474460,
+            "background_type": 0,
+            "scene": "124",
+            "text": "切换到124画面",
+            "z_class_name": "Scene Button",
+            "z_h": 59,
+            "z_w": 103,
+            "z_x": 302,
+            "z_y": 38
+        },
+        {
+            "background_color": 14474460,
+            "background_type": 0,
+            "scene": "1254",
+            "text": "切换到首页",
+            "z_class_name": "Scene Button",
+            "z_h": 59,
+            "z_w": 103,
+            "z_x": 435,
+            "z_y": 39
+        }
+    ],
+    "z_name": "NEW000",
+    "z_type": 0
+}

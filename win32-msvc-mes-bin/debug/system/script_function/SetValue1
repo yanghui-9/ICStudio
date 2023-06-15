@@ -1,0 +1,35 @@
+[
+    {
+        "note": "SetValue\n设置外设指定连接的数据\n  linkname:外设连接\n  reg:寄存器名称或者标签名\n  index:寄存器索引，标签不需要填写\n  datatype:数据类型\n  value:写入的值"
+    },
+    {
+        "name": "linkname",
+        "type": 0,
+        "args": "test0",
+        "index": 0
+    },
+    {
+        "name": "reg",
+        "type": 0,
+        "args": "test1",
+        "index": 0
+    },
+    {
+        "name": "index",
+        "type": 0,
+        "args": "test2",
+        "index": 0
+    },
+    {
+        "name": "datatype",
+        "type": 0,
+        "args": "test2",
+        "index": 0
+    },
+    {
+        "name": "value",
+        "type": 0,
+        "args": "test2",
+        "index": 0
+    }
+]

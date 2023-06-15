@@ -1,0 +1,14 @@
+{
+    "z_items": [
+        {
+            "z_class_name": "Bit Button",
+            "z_h": 202,
+            "z_name": "",
+            "z_w": 291,
+            "z_x": 230,
+            "z_y": 116
+        }
+    ],
+    "z_name": "test0.scene",
+    "z_type": 0
+}

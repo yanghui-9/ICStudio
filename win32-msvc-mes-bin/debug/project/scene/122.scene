@@ -1,0 +1,30 @@
+{
+    "background_color": null,
+    "background_type": null,
+    "window": null,
+    "z_items": [
+        {
+            "off_img": null,
+            "on_img": null,
+            "z_class_name": "Bit Button",
+            "z_h": 177,
+            "z_name": "",
+            "z_w": 256,
+            "z_x": 145,
+            "z_y": 159
+        },
+        {
+            "background_color": 14474460,
+            "background_type": 0,
+            "scene": "1254",
+            "text": "切换到首页",
+            "z_class_name": "Scene Button",
+            "z_h": 52,
+            "z_w": 170,
+            "z_x": 235,
+            "z_y": 66
+        }
+    ],
+    "z_name": "NEW000",
+    "z_type": 0
+}

@@ -1,0 +1,62 @@
+<RCC>
+    <qresource prefix="/">
+        <file>image/copy.png</file>
+        <file>image/cut.png</file>
+        <file>image/delete.png</file>
+        <file>image/paste.png</file>
+        <file>image/scene.png</file>
+        <file>image/window.png</file>
+        <file>image/duplicate.png</file>
+        <file>image/group.png</file>
+        <file>image/lock.png</file>
+        <file>image/unlock.png</file>
+        <file>image/ungroup.png</file>
+        <file>image/search.png</file>
+        <file>image/reverse select.png</file>
+        <file>image/select all.png</file>
+        <file>image/horizontal center.png</file>
+        <file>image/horizontal equidistant.png</file>
+        <file>image/left.png</file>
+        <file>image/make same height.png</file>
+        <file>image/make same size.png</file>
+        <file>image/make same width.png</file>
+        <file>image/right.png</file>
+        <file>image/top.png</file>
+        <file>image/vertical center.png</file>
+        <file>image/vertical equidistant.png</file>
+        <file>image/bottom.png</file>
+        <file>image/move to back.png</file>
+        <file>image/move to bottom.png</file>
+        <file>image/move to front.png</file>
+        <file>image/move to top.png</file>
+		<file>image/move up.png</file>
+		<file>image/move down.png</file>
+		<file>image/move left.png</file>
+		<file>image/move right.png</file>
+        <file>image/zoom in.png</file>
+        <file>image/zoom out.png</file>
+        <file>image/new screen.png</file>
+        <file>image/delete screen.png</file>
+        <file>image/property.png</file>
+        <file>image/redo.png</file>
+        <file>image/undo.png</file>
+        <file>image/Text center.png</file>
+        <file>image/Text down.png</file>
+        <file>image/Text left down.png</file>
+        <file>image/Text left up.png</file>
+        <file>image/Text left.png</file>
+        <file>image/Text right down.png</file>
+        <file>image/Text right up.png</file>
+        <file>image/Text right.png</file>
+        <file>image/Text up.png</file>
+        <file>image/compile.png</file>
+        <file>image/new.png</file>
+        <file>image/open.png</file>
+        <file>image/save.png</file>
+        <file>image/saveall.png</file>
+		<file>image/gallery.png</file>
+		<file>image/variables.png</file>
+		<file>image/script.png</file>
+		<file>image/system.png</file>
+    </qresource>
+</RCC>

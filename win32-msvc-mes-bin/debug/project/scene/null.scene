@@ -1,0 +1,39 @@
+{
+    "background_color": 14474460,
+    "background_type": 0,
+    "script": null,
+    "window": 0,
+    "z_items": [
+        {
+            "off_img": "off.png",
+            "on_img": "on.png",
+            "var": "0x1",
+            "z_class_name": "Bit Button",
+            "z_h": 266,
+            "z_w": 423,
+            "z_x": 341,
+            "z_y": 360
+        },
+        {
+            "off_img": "off.png",
+            "on_img": "on.png",
+            "var": "0x2",
+            "z_class_name": "Bit Button",
+            "z_h": 148,
+            "z_w": 203,
+            "z_x": 280,
+            "z_y": 97
+        },
+        {
+            "off_img": null,
+            "on_img": null,
+            "z_class_name": "Bit Button",
+            "z_h": 161,
+            "z_w": 401,
+            "z_x": 611,
+            "z_y": 142
+        }
+    ],
+    "z_name": "null.scene",
+    "z_type": 0
+}

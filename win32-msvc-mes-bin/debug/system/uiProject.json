@@ -1,0 +1,21 @@
+{
+  "loginParams": {
+    "UserName": "p99990",
+    "UserPwd": "123456",
+    "bPassword": true
+  },
+  "systemParams": {
+    "systemTrayInfo": {
+      "bQuit": true
+    },
+    "configInfo": {
+      "sPassword": "123",
+      "sExportPath": "D:/360极速浏览器X下载/T1.mesConfig",
+      "sImportPath": "D:/MES_HOST/win32-msvc-mes-bin/T1.mesConfig",
+      "iLogDirMaxSize": 10
+    },
+    "logQueryInfo": {
+      "nPageIndex": 2
+    }
+  }
+}

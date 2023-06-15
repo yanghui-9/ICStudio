@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/">
+        <file>image/compile.png</file>
+        <file>image/new.png</file>
+        <file>image/open.png</file>
+        <file>image/save.png</file>
+        <file>image/saveAll.png</file>
+        <file>image/logo.ico</file>
+    </qresource>
+</RCC>
