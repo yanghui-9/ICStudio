@@ -10,18 +10,8 @@ public:
     IAppR(const int n_threads);
     virtual ~IAppR();
 
-    //日志
-    virtual int Log(Log_Type type,const std::string &sErrCode,const std::string &overview){
-        return -1;
-    }
-
     //任务入队
     virtual void AddTask(std::function<void()> &task,Event_Pri_Type type = Event_Nor);
-
-    //获取Ui模块
-    virtual int GetUIModel(std::shared_ptr<IUiModel> &model){
-        return -1;
-    }
 
     //事件处理
     //异步

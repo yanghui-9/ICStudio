@@ -87,15 +87,6 @@ void AppRun::InitRun()
     //IAPP::InvokeMethod(0,Z_RETURN_ARG(int,i),Z_ARG(int,1),Z_ARG(int32_t,20));
 }
 
-int AppRun::GetUIModel(std::shared_ptr<IUiModel> &model)
-{
-    if(m_UiSupport)
-    {
-       model = m_UiSupport;
-    }
-    return -1;
-}
-
 bool AppRun::Event(HEvent *event)
 {
     bool bDeal = true;

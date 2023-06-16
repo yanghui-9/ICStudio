@@ -1,3 +1,3 @@
 TEMPLATE = subdirs
-SUBDIRS = Tools App Core
+SUBDIRS = App Tools Core
 MesHost.depends = Tools App

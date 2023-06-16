@@ -1318,7 +1318,7 @@ void Device::UpdataProcessResultToDataArea(int32_t ret, const std::vector<AddrIn
            #endif
            }
            sErr += QString::fromLocal8Bit("\n结果:通讯无数据响应");
-           IAPP::GetIntance()->Log(IAPP::Log_Error_Slight,"communication error",sErr.toLocal8Bit().data());
+           //IAPP::GetIntance()->Log(IAPP::Log_Error_Slight,"communication error",sErr.toLocal8Bit().data());
         }
     }
         break;
@@ -1345,7 +1345,7 @@ void Device::UpdataProcessResultToDataArea(int32_t ret, const std::vector<AddrIn
             #endif
             }
             sErr += QString::fromLocal8Bit("\n结果:通讯响应数据校验失败");
-            IAPP::GetIntance()->Log(IAPP::Log_Error_Slight,"communication error",sErr.toLocal8Bit().data());
+            //IAPP::GetIntance()->Log(IAPP::Log_Error_Slight,"communication error",sErr.toLocal8Bit().data());
         }
     }
         break;

@@ -171,33 +171,6 @@
         },
         {
             "z_class_name": "combine",
-            "z_h": 102,
-            "z_items": [
-                {
-                    "off_img": null,
-                    "on_img": null,
-                    "z_class_name": "Bit Button",
-                    "z_h": 85,
-                    "z_w": 123,
-                    "z_x": 4,
-                    "z_y": 7
-                },
-                {
-                    "off_img": null,
-                    "on_img": null,
-                    "z_class_name": "Bit Button",
-                    "z_h": 90,
-                    "z_w": 148,
-                    "z_x": 130,
-                    "z_y": 5
-                }
-            ],
-            "z_w": 284,
-            "z_x": 1392,
-            "z_y": 102
-        },
-        {
-            "z_class_name": "combine",
             "z_h": 122,
             "z_items": [
                 {

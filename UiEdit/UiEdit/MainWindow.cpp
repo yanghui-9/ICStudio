@@ -571,8 +571,13 @@ void MainWindow::LoadCombineItems(const QString &sList)
         {
             if(!item.isEmpty())
             {
+                QString pngPath = QString("./CustomComponents/%1.png").arg(item);
+                if(!QFile::exists(pngPath))
+                {
+                    continue;
+                }
                 itemAc = new QAction(this);
-                itemAc->setIcon(QIcon(QString("./CustomComponents/%1.png").arg(item)));
+                itemAc->setIcon(QIcon(pngPath));
                 itemAc->setText(item);
                 connect(itemAc,SIGNAL(triggered()),this,SLOT(dealCombineItemSlot()));
                 m_combineItemsToolbar->addAction(itemAc);

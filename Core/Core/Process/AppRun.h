@@ -27,20 +27,6 @@ public:
     //初始化.
     void InitRun();
 
-    //日志写，接口设计后续完善.
-    virtual int Log(Log_Type type,const std::string &sErrCode,const std::string &overview)
-    {
-        if(m_UiSupport)
-        {
-            m_UiSupport->Log(type,sErrCode,overview);
-            return 0;
-        }
-        return -1;
-    }
-
-    //获取Ui模块.
-    virtual int GetUIModel(std::shared_ptr<IUiModel> &model);
-
     //通过ID获取模块指针.
     virtual ZObject * GetFuncModelFromID(int ID)
     {

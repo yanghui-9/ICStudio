@@ -17,6 +17,8 @@
 #    define Y_EXPORT Q_DECL_IMPORT
 #  endif
 
+#define zApp (IAPP::GetIntance())
+
 //事件优先级
 enum Event_Pri_Type
 {
@@ -88,12 +90,6 @@ public:
 
     //线程池任务入队.
     virtual void AddTask(std::function<void()> &task,Event_Pri_Type type = Event_Nor) = 0;
-
-    //全局日志功能.
-    virtual int Log(Log_Type type,const std::string &sErrCode,const std::string &overview) = 0;
-
-    //获取Ui模块.
-    virtual int GetUIModel(std::shared_ptr<IUiModel> &model) = 0;
 
     //事件处理
     //异步

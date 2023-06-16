@@ -4,7 +4,6 @@
 #include "extend_func_head.h"
 #include "lua.hpp"
 
-
 FuncModel *CreateFunc()
 {
     return new test1();
@@ -14,7 +13,7 @@ FuncModel *CreateFunc()
 int test1::Init(std::shared_ptr<interface_comm> &comm)
 {
     Q_UNUSED(comm);
-    IAPP::GetIntance()->InvokeMethod(Extend_Script_Register,Z_ARG(ScriptFunc,test1::l_test1),Z_ARG(std::string,"test0425"));
+    zApp->InvokeMethod(Extend_Script_Register,Z_ARG(ScriptFunc,test1::l_test1),Z_ARG(std::string,"test0425"));
     //IAPP::GetIntance()->InvokeMethod(Extend_Script_Register,Z_ARG(ScriptFunc,test1::l_test1));
     //IAPP::GetIntance()->InvokeMethod(Extend_Script_Register,Z_ARG(ScriptFunc,test1::l_test1),Z_ARG(std::string,1));
     return  0;
