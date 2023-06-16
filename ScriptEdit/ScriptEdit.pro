@@ -60,7 +60,11 @@ CONFIG(debug, debug|release){
     LIBS += -L$$PWD/../3rdparty/qscintilla/release/lib/ -lqscintilla2_qt5
 }
 
-LIBS +=-L$$DESTDIR -llua
+#Interface
+INCLUDEPATH +=  $$PWD/../Interface
+#Lua
+LIBS += -L$$PWD/../3rdparty/lua/lib/ -llua
+INCLUDEPATH += $$PWD/../3rdparty/lua/include
 
 RESOURCES += \
     image.qrc

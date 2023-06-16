@@ -1,6 +1,6 @@
 ﻿#ifndef FuncManager_H
 #define FuncManager_H
-#include "../MesHost/MesHost/Interface/IFuncModel.h"
+#include "IFuncModel.h"
 #include <QMap>
 #include <QLibrary>
 
