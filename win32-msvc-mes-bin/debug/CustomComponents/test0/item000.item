@@ -1,0 +1,27 @@
+{
+    "z_class_name": "combine",
+    "z_h": 231,
+    "z_items": [
+        {
+            "off_img": null,
+            "on_img": null,
+            "z_class_name": "Bit Button",
+            "z_h": 96,
+            "z_w": 271,
+            "z_x": 113,
+            "z_y": 3
+        },
+        {
+            "off_img": null,
+            "on_img": null,
+            "z_class_name": "Bit Button",
+            "z_h": 91,
+            "z_w": 226,
+            "z_x": 5,
+            "z_y": 136
+        }
+    ],
+    "z_w": 391,
+    "z_x": 759,
+    "z_y": 420
+}

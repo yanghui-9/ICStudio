@@ -6,6 +6,7 @@
 class MainWindow;
 class QMenu;
 class QToolBar;
+class QAction;
 class UToolbar : public QObject
 {
     Q_OBJECT
@@ -78,6 +79,9 @@ public:
 
     //显示菜单
     void ShowMenu();
+
+    //获取显示控制action
+    QList<QAction *> GetAclist();
 
 
 protected:

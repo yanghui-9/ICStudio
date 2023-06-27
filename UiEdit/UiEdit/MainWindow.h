@@ -13,6 +13,7 @@ class QToolBar;
 class interface_gallery;
 class interface_variable_table;
 class CustomComponentsDlg;
+class DisplayCustomComponentsDlg;
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -47,10 +48,14 @@ public:
         }
         return iRet;
     }
+    //自定义控件选择处理
+    void CustomItemselectDeal(const QString &item);
 
 protected:
     //初始化工具栏
     void InitToolBars();
+    //初始化菜单栏
+    void InitMenuBar();
     //启动时按上次会话配置
     void OpenCurrentSession();
     //保存会话配置
@@ -93,6 +98,8 @@ private:
     MainStatusBar * m_statusBar = nullptr;
     //文件工具栏
     QToolBar * m_fileToolBar;
+    //设置工具栏
+    QToolBar *m_settingToolbar;
 
     //新建id
     int m_newID = 0;
@@ -102,6 +109,7 @@ private:
 
     //自定义组件选择对话框
     CustomComponentsDlg * m_CustomComponentsDlg = nullptr;
+    DisplayCustomComponentsDlg * m_DCustomComponentsDlg = nullptr;
     QToolBar *m_combineItemsToolbar = nullptr;
     QString m_customSelectItems;
 

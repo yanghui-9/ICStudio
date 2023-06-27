@@ -19,6 +19,7 @@
 #include "Gallery/Gallery.h"
 #include "VariableTable/VariableTable.h"
 #include "CustomComponentsDlg.h"
+#include "DisplayCustomComponentsDlg.h"
 
 MainWindow::MainWindow(std::shared_ptr<interface_comm> comm, QWidget *parent) :
     QMainWindow(parent),m_comm(comm)
@@ -102,6 +103,12 @@ void MainWindow::initUI()
         InitToolBars();
     }
 
+    //建立菜单栏
+    if(m_isEditMode)
+    {
+        InitMenuBar();
+    }
+
    //加载会话
    OpenCurrentSession();
 
@@ -128,7 +135,7 @@ void MainWindow::SwitchMode(bool flag)
 
 void MainWindow::InitToolBars()
 {
-    m_fileToolBar = new QToolBar(this);
+    m_fileToolBar = new QToolBar(QString::fromLocal8Bit("文件"),this);
     //新建
     QAction * newAc = new QAction(this);
     newAc->setIcon(QIcon(":/image/new.png"));
@@ -168,7 +175,7 @@ void MainWindow::InitToolBars()
     addToolBar(m_fileToolBar);
 
     //初始化图库和变量表和脚本库，工具栏
-    QToolBar *picToolbar = new QToolBar(this);
+    m_settingToolbar = new QToolBar(QString::fromLocal8Bit("设置"),this);
     QAction * picAC = new QAction(this);
     //picAC->setIcon(QIcon(":/image/gallery.png"));
     picAC->setText(QString::fromLocal8Bit("图库"));
@@ -177,7 +184,7 @@ void MainWindow::InitToolBars()
        //图库编辑之后，控件对应的图片可能发生变化，刷新当前画面
        m_View->curScene()->reflashAllItem();
     });
-    picToolbar->addAction(picAC);
+    m_settingToolbar->addAction(picAC);
 
     //变量表
     QAction * varC = new QAction(this);
@@ -186,7 +193,7 @@ void MainWindow::InitToolBars()
     connect(varC,&QAction::triggered,[this](){
        if(m_varTable) m_varTable->ShowVarSelectDialog(this);
     });
-    picToolbar->addAction(varC);
+    m_settingToolbar->addAction(varC);
 
     //脚本
     QAction * scriptC = new QAction(this);
@@ -196,12 +203,12 @@ void MainWindow::InitToolBars()
         //调用外部脚本编辑器
         QProcess::execute("ScriptEditor.exe");
     });
-    picToolbar->addAction(scriptC);
+    m_settingToolbar->addAction(scriptC);
 
-    //自定义组件
+    //自定义组件配置
     QAction * combineC = new QAction(this);
     //combineC->setIcon(QIcon(":/image/script.png"));
-    combineC->setText(QString::fromLocal8Bit("自定义组件"));
+    combineC->setText(QString::fromLocal8Bit("自定义组件编辑"));
     connect(combineC,&QAction::triggered,[this](){
         if(!m_CustomComponentsDlg)
         {
@@ -209,13 +216,29 @@ void MainWindow::InitToolBars()
             m_CustomComponentsDlg->InitUI();
         }
         m_CustomComponentsDlg->SetSelectItems(m_customSelectItems);
+        //m_CustomComponentsDlg->UShow();
         if(QDialog::Accepted == m_CustomComponentsDlg->exec())
         {
             m_customSelectItems = m_CustomComponentsDlg->GetSelectPic();
             this->LoadCombineItems(m_customSelectItems);
         }
     });
-    picToolbar->addAction(combineC);
+    m_settingToolbar->addAction(combineC);
+
+    //自定义组件显示
+    QAction * combineCD = new QAction(this);
+    //combineC->setIcon(QIcon(":/image/script.png"));
+    combineCD->setText(QString::fromLocal8Bit("自定义组件显示"));
+    connect(combineCD,&QAction::triggered,[this](){
+        if(!m_DCustomComponentsDlg)
+        {
+            m_DCustomComponentsDlg = new DisplayCustomComponentsDlg(this,this);
+            m_DCustomComponentsDlg->InitUI();
+        }
+        m_DCustomComponentsDlg->LoadCombineItems(m_customSelectItems);
+        m_DCustomComponentsDlg->UShow();
+    });
+    m_settingToolbar->addAction(combineCD);
 
     //系统设置
     QAction * sysC = new QAction(this);
@@ -224,9 +247,9 @@ void MainWindow::InitToolBars()
     connect(sysC,&QAction::triggered,[](){
         //
     });
-    picToolbar->addAction(sysC);
+    m_settingToolbar->addAction(sysC);
 
-    addToolBar(picToolbar);
+    addToolBar(m_settingToolbar);
 
 
     //初始化控件工具栏
@@ -236,8 +259,46 @@ void MainWindow::InitToolBars()
 
     //初始化自定义组件工具栏
     addToolBarBreak();
-    m_combineItemsToolbar = new QToolBar("combines",this);
+    m_combineItemsToolbar = new QToolBar(QString::fromLocal8Bit("自定义控件"),this);
     addToolBar(Qt::RightToolBarArea,m_combineItemsToolbar);
+}
+
+void MainWindow::InitMenuBar()
+{
+    QMenuBar * menuBar = new QMenuBar(this);
+
+    //文件操作菜单
+    QMenu * fileMenu = new QMenu(QString::fromLocal8Bit("文件"),menuBar);
+    QList<QAction*> fileAcs = m_fileToolBar->actions();
+    for (const auto &ac : fileAcs) {
+        fileMenu->addAction(ac);
+    }
+    menuBar->addMenu(fileMenu);
+
+    //视图菜单
+    QMenu * viewMenu = new QMenu(QString::fromLocal8Bit("视图"),menuBar);
+    viewMenu->addAction(m_fileToolBar->toggleViewAction());
+    viewMenu->addAction(m_settingToolbar->toggleViewAction());
+    QList<QAction *> aclist = m_toolBar->GetAclist();
+    for (const auto &ac : aclist) {
+       viewMenu->addAction(ac);
+    }
+    viewMenu->addAction(m_combineItemsToolbar->toggleViewAction());
+    menuBar->addMenu(viewMenu);
+
+    //设置菜单
+    QMenu * settingMenu = new QMenu(QString::fromLocal8Bit("设置"),menuBar);
+    QList<QAction*> settingAcs = m_settingToolbar->actions();
+    for (const auto &ac : settingAcs) {
+        settingMenu->addAction(ac);
+    }
+    menuBar->addMenu(settingMenu);
+
+    //帮助
+    QMenu * helpMenu = new QMenu(QString::fromLocal8Bit("帮助"),menuBar);
+    menuBar->addMenu(helpMenu);
+
+    setMenuBar(menuBar);
 }
 
 void MainWindow::newSlot()
@@ -356,14 +417,7 @@ void MainWindow::dealCombineItemSlot()
     QAction * ac = qobject_cast<QAction *>(sender());
     if(ac)
     {
-        if(m_View)
-        {
-            UWidgetScene * curSence = m_View->curScene();
-            if(curSence)
-            {
-                curSence ->setCreateMode(ac->text());
-            }
-        }
+        CustomItemselectDeal(ac->text());
     }
 }
 
@@ -583,6 +637,18 @@ void MainWindow::LoadCombineItems(const QString &sList)
                 m_combineItemsToolbar->addAction(itemAc);
                 m_combineItemsToolbar->addSeparator();
             }
+        }
+    }
+}
+
+void MainWindow::CustomItemselectDeal(const QString &item)
+{
+    if(m_View)
+    {
+        UWidgetScene * curSence = m_View->curScene();
+        if(curSence)
+        {
+            curSence ->setCreateMode(item);
         }
     }
 }

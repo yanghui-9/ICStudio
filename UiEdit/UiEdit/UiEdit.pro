@@ -47,6 +47,7 @@ INCLUDEPATH +=$$PWD/../../MesHost/Tools/
 
 HEADERS += \
     CustomComponentsDlg.h \
+    DisplayCustomComponentsDlg.h \
     Gallery/Gallery.h \
     Gallery/GalleryDlg.h \
     Gallery/interface_gallery.h \
@@ -72,6 +73,7 @@ HEADERS += \
 
 SOURCES += \
     CustomComponentsDlg.cpp \
+    DisplayCustomComponentsDlg.cpp \
     Gallery/Gallery.cpp \
     Gallery/GalleryDlg.cpp \
     Itemsfactory.cpp \

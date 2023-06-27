@@ -134,8 +134,89 @@
                 }
             ],
             "z_w": 335,
-            "z_x": 417,
-            "z_y": 44
+            "z_x": 617,
+            "z_y": 74
+        },
+        {
+            "z_class_name": "combine",
+            "z_h": 157,
+            "z_items": [
+                {
+                    "off_img": null,
+                    "on_img": null,
+                    "z_class_name": "Bit Button",
+                    "z_h": 65,
+                    "z_w": 173,
+                    "z_x": 72,
+                    "z_y": 2
+                },
+                {
+                    "off_img": null,
+                    "on_img": null,
+                    "z_class_name": "Bit Button",
+                    "z_h": 61,
+                    "z_w": 145,
+                    "z_x": 3,
+                    "z_y": 92
+                }
+            ],
+            "z_w": 251,
+            "z_x": 1011,
+            "z_y": 193
+        },
+        {
+            "z_class_name": "combine",
+            "z_h": 210,
+            "z_items": [
+                {
+                    "off_img": null,
+                    "on_img": null,
+                    "z_class_name": "Bit Button",
+                    "z_h": 87,
+                    "z_w": 203,
+                    "z_x": 84,
+                    "z_y": 2
+                },
+                {
+                    "off_img": null,
+                    "on_img": null,
+                    "z_class_name": "Bit Button",
+                    "z_h": 82,
+                    "z_w": 169,
+                    "z_x": 3,
+                    "z_y": 123
+                }
+            ],
+            "z_w": 294,
+            "z_x": 1378,
+            "z_y": 342
+        },
+        {
+            "z_class_name": "combine",
+            "z_h": 105,
+            "z_items": [
+                {
+                    "off_img": null,
+                    "on_img": null,
+                    "z_class_name": "Bit Button",
+                    "z_h": 43,
+                    "z_w": 156,
+                    "z_x": 65,
+                    "z_y": 1
+                },
+                {
+                    "off_img": null,
+                    "on_img": null,
+                    "z_class_name": "Bit Button",
+                    "z_h": 41,
+                    "z_w": 130,
+                    "z_x": 2,
+                    "z_y": 61
+                }
+            ],
+            "z_w": 226,
+            "z_x": 1282,
+            "z_y": 595
         }
     ],
     "z_name": "NEW000",

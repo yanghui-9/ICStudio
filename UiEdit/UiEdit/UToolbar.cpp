@@ -13,7 +13,7 @@ UToolbar::UToolbar(QObject *parent) : QObject(parent)
 
 void UToolbar::Init()
 {
-    m_toolBar = new QToolBar(m_mainW);
+    m_toolBar = new QToolBar(QString::fromLocal8Bit("控件编辑操作"),m_mainW);
 
     //画面组态Action
     InitAction();
@@ -37,7 +37,7 @@ void UToolbar::Init()
 
     //控件列表Action
     m_mainW->addToolBarBreak();
-    m_itemsToolBar = new QToolBar(m_mainW);
+    m_itemsToolBar = new QToolBar(QString::fromLocal8Bit("控件"),m_mainW);
     QList<QString> itemsName;
     QList<QAction*> itemsAc;
     itemsFactory::GetInstance()->getItemProList(itemsName,itemsAc);
@@ -57,6 +57,14 @@ void UToolbar::ShowMenu()
     {
         m_SceneMenu->exec(QCursor::pos());
     }
+}
+
+QList<QAction *> UToolbar::GetAclist()
+{
+   QList<QAction*> aclist;
+   aclist.append(m_toolBar->toggleViewAction());
+   aclist.append(m_itemsToolBar->toggleViewAction());
+   return aclist;
 }
 
 void UToolbar::InitActionFromName(QString name,VIEW_OPT vOpt,bool bSeparator)
