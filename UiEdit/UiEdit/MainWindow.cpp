@@ -177,7 +177,7 @@ void MainWindow::InitToolBars()
     //初始化图库和变量表和脚本库，工具栏
     m_settingToolbar = new QToolBar(QString::fromLocal8Bit("设置"),this);
     QAction * picAC = new QAction(this);
-    //picAC->setIcon(QIcon(":/image/gallery.png"));
+    picAC->setIcon(QIcon(":/image/gallery.png"));
     picAC->setText(QString::fromLocal8Bit("图库"));
     connect(picAC,&QAction::triggered,[this](){
        if(m_gallery) m_gallery->ShowImgSelectDialog(this);
@@ -188,8 +188,8 @@ void MainWindow::InitToolBars()
 
     //变量表
     QAction * varC = new QAction(this);
-    //varC->setIcon(QIcon(":/image/variables.png"));
-    varC->setText(QString::fromLocal8Bit("变量表"));
+    varC->setIcon(QIcon(":/image/variables.png"));
+    varC->setText(QString::fromLocal8Bit("数据中心"));
     connect(varC,&QAction::triggered,[this](){
        if(m_varTable) m_varTable->ShowVarSelectDialog(this);
     });
@@ -197,7 +197,7 @@ void MainWindow::InitToolBars()
 
     //脚本
     QAction * scriptC = new QAction(this);
-    //scriptC->setIcon(QIcon(":/image/script.png"));
+    scriptC->setIcon(QIcon(":/image/script.png"));
     scriptC->setText(QString::fromLocal8Bit("脚本"));
     connect(scriptC,&QAction::triggered,[](){
         //调用外部脚本编辑器
@@ -207,7 +207,7 @@ void MainWindow::InitToolBars()
 
     //自定义组件配置
     QAction * combineC = new QAction(this);
-    //combineC->setIcon(QIcon(":/image/script.png"));
+    combineC->setIcon(QIcon(":/image/custom item setting.png"));
     combineC->setText(QString::fromLocal8Bit("自定义组件编辑"));
     connect(combineC,&QAction::triggered,[this](){
         if(!m_CustomComponentsDlg)
@@ -227,7 +227,7 @@ void MainWindow::InitToolBars()
 
     //自定义组件显示
     QAction * combineCD = new QAction(this);
-    //combineC->setIcon(QIcon(":/image/script.png"));
+    combineCD->setIcon(QIcon(":/image/custom item display.png"));
     combineCD->setText(QString::fromLocal8Bit("自定义组件显示"));
     connect(combineCD,&QAction::triggered,[this](){
         if(!m_DCustomComponentsDlg)
@@ -242,7 +242,7 @@ void MainWindow::InitToolBars()
 
     //系统设置
     QAction * sysC = new QAction(this);
-    //sysC->setIcon(QIcon(":/image/system.png"));
+    sysC->setIcon(QIcon(":/image/system setting.png"));
     sysC->setText(QString::fromLocal8Bit("系统设置"));
     connect(sysC,&QAction::triggered,[](){
         //

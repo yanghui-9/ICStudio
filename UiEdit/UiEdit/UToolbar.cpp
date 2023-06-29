@@ -129,7 +129,7 @@ void UToolbar::InitAction()
         InitActionFromName(QObject::tr("move to bottom"),VIEW_OPT_MOVE_TO_BOTTOM);
         InitActionFromName(QObject::tr("move to back"),VIEW_OPT_MOVE_TO_BACK,true);
 
-        InitActionFromName(QObject::tr("save custom item"),VIEW_OPT_SAVE_CUSTOM,true);
+        InitActionFromName(QObject::tr("item save"),VIEW_OPT_SAVE_CUSTOM,true);
 
         InitActionFromName(QObject::tr("property"),VIEW_OPT_PROPERTY);
 

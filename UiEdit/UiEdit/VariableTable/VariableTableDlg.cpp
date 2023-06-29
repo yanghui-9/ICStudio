@@ -15,7 +15,7 @@ VariableTableDlg::VariableTableDlg(VariableTable *variable, QWidget *parent):QDi
   ,m_Variables(variable)
 {
     setMinimumSize(800,600);
-    setWindowTitle(QString::fromLocal8Bit("变量表"));
+    setWindowTitle(QString::fromLocal8Bit("数据中心"));
 }
 
 void VariableTableDlg::InitUI()
@@ -42,7 +42,7 @@ void VariableTableDlg::InitUI()
 
     //类型选择
     QHBoxLayout * leftTopLayout = new QHBoxLayout();
-    QLabel * typeLabel = new QLabel(QString::fromLocal8Bit("变量表类型选择："),this);
+    QLabel * typeLabel = new QLabel(QString::fromLocal8Bit("数据类型选择："),this);
     m_typeCombox = new QComboBox(this);
     leftTopLayout->addWidget(typeLabel);
     leftTopLayout->addWidget(m_typeCombox);

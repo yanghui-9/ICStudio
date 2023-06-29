@@ -58,5 +58,9 @@
 		<file>image/variables.png</file>
 		<file>image/script.png</file>
 		<file>image/system.png</file>
+		<file>image/item save.png</file>
+		<file>image/custom item setting.png</file>
+		<file>image/custom item display.png</file>
+		<file>image/system setting.png</file>
     </qresource>
 </RCC>
