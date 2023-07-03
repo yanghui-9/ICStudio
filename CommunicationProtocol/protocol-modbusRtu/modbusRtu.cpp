@@ -60,6 +60,7 @@ int32_t modbusRtu::ReadFrame(const std::vector<AddrInfo> &addrInfo)
     {
         return -1;
     }
+    AddrInfo vInfo = addrInfo.front();
 
     //开始组帧.
     D.InitFrame(frame);
@@ -69,27 +70,27 @@ int32_t modbusRtu::ReadFrame(const std::vector<AddrInfo> &addrInfo)
     //站号
     frame.send[0] = static_cast<char>(D.m_deviceConfig.protocolInfo.deviceStation & 0xff);
     //功能码
-    if("0x" == addrInfo.front().reg)
+    if("0x" == vInfo.reg)
     {
         frame.send[1] = 0x01;
     }
-    else if("1x" == addrInfo.front().reg)
+    else if("1x" == vInfo.reg)
     {
         frame.send[1] = 0x02;
     }
-    else if ("3x" == addrInfo.front().reg) {
+    else if ("3x" == vInfo.reg) {
         frame.send[1] = 0x04;
     }
     else {
         frame.send[1] = 0x03;
     }
     //地址
-    uint64_t addr = addrInfo.front().index;
+    uint64_t addr = vInfo.index;
     frame.send[2] = static_cast<char>( (addr) >> 8 );
     frame.send[3] = static_cast<char>( (addr) );
 
     //长度
-    uint32_t len = addrInfo.front().len;
+    uint32_t len = vInfo.len;
     frame.send[4] = static_cast<char> (len >> 8);//长度
     frame.send[5] = static_cast<char> (len);
 
@@ -107,16 +108,9 @@ int32_t modbusRtu::ReadFrame(const std::vector<AddrInfo> &addrInfo)
 
     //配置解析参数
     frame.readList.clear();
-    foreach (auto addr, addrInfo.at(0).varList) {
-       AddrInfo addrRead;
-       addrRead.reg = addr.reg;
-       addrRead.index = addr.index;
-       addrRead.len = addr.len;
-       addrRead.beginIndex = 3+(addr.index - addrInfo.at(0).index)/8;
-       addrRead.bitOffset = (addr.index - addrInfo.at(0).index)%8;
-       addrRead.dataLen = addr.len;
-       frame.readList.push_back(addrRead);
-    }
+    vInfo.beginIndex = 3;
+    vInfo.bitOffset = 0;
+    frame.readList.push_back(vInfo);
 
     //入队
     D.m_curFrameList.push_back(frame);

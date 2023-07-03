@@ -127,6 +127,12 @@ public:
     //更新通讯结果到状态寄存器.
     void UpdataProcessResultToDataArea(int32_t ret,const std::vector<Protocol::AddrInfoForRW> &addrList);
 
+protected:
+    //获取解析索引
+    uint64_t GetBeginIndex(const Protocol::AddrInfoForRW &addrRw, const AddrInfo &addr);
+    //获取解析位偏移
+    uint64_t GetBitOffset (const Protocol::AddrInfoForRW &addrRw, const AddrInfo &addr);
+
 public:
     ~Device();
 

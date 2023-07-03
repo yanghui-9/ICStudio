@@ -609,23 +609,25 @@ int32_t Device::AnalysisFrame(Frame &recvF)
     case cycleRead:
     case conditionRead:
     {
-       for(uint32_t i = 0;i < recvF.readList.size();i++)
+       for(std::vector<AddrInfo>::iterator itAddr = recvF.readList.begin();itAddr != recvF.readList.end();++itAddr)
        {
            //qDebug()<<__func__<<i<<QString::fromStdString(recvF.readList.at(i).reg)<<recvF.readList.at(i).index/16<<recvF.readList.at(i).len/16;
            //解析前进行数据特殊处理.
            if(m_MDevice)
            {
-               if(-1 == m_MDevice->DealRecvData(recvF.readList.at(i),recvF.GetRecvBuff()))
+               if(-1 == m_MDevice->DealRecvData(*itAddr,recvF.GetRecvBuff()))
                {//子类已经解析完了,下一个地址块.
                    continue;
                }
            }
            //开始解析.
-           ret = m_DataAreaDeal.SetDataFromAddr(recvF.readList.at(i).reg,
-                                                recvF.readList.at(i).index,
-                                                recvF.readList.at(i).dataLen,
-                                                recvF.GetRecvBuff() + recvF.readList.at(i).beginIndex,
-                                                recvF.readList.at(i).bitOffset);
+           for(std::vector<Protocol::AddrInfoForRW>::iterator it = itAddr->varList.begin();
+               it != itAddr->varList.end();++ it)
+           {
+               ret = m_DataAreaDeal.SetDataFromAddr(it->reg,it->index,
+                                                    it->len,recvF.GetRecvBuff() + GetBeginIndex(*it,*itAddr),
+                                                    static_cast<uint16_t>( GetBitOffset(*it,*itAddr)) );
+           }
        }
     }
         break;
@@ -1350,6 +1352,30 @@ void Device::UpdataProcessResultToDataArea(int32_t ret, const std::vector<AddrIn
     }
         break;
     }
+}
+
+uint64_t Device::GetBeginIndex(const AddrInfoForRW &addrRw, const AddrInfo &addr)
+{
+    RegInfo rInfo;
+    if(-1 == GetRefInfoFromReg(addr.reg,rInfo))
+    {
+        rInfo.unitBitNum = 16;
+    }
+    return  addr.beginIndex +  static_cast<uint64_t>((addrRw.index - addr.index)/(8.0/rInfo.unitBitNum));
+}
+
+uint64_t Device::GetBitOffset(const AddrInfoForRW &addrRw, const AddrInfo &addr)
+{
+    RegInfo rInfo;
+    if(-1 == GetRefInfoFromReg(addr.reg,rInfo))
+    {
+        rInfo.unitBitNum = 16;
+    }
+    if(1 == rInfo.unitBitNum)
+        return (addrRw.index - addr.index)%(8);
+    else
+        return 0;
+
 }
 
 int32_t Device::Process_Slave()
