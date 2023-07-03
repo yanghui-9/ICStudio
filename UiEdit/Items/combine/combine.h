@@ -21,7 +21,7 @@ public:
     //第4位为1表示画面切换，显示当前画面
     //第5位为1表示运行编辑模式切换
     //第6位为1表示切换为运行模式，1表示编辑模式
-    virtual bool update_result(int flag = 0);
+    virtual bool update_result(int flag = 0, void *reslut = nullptr);
 
     //地址信息
     virtual bool update_addr(QList<Protocol::AddrInfoForRW>& addrList);

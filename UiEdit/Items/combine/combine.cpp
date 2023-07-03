@@ -77,13 +77,19 @@ void combine::itemPaintEvent(QPaintEvent *event)
 #endif
 }
 
-bool combine::update_result(int flag)
+bool combine::update_result(int flag, void *reslut)
 {
-    if( (flag >> 5)& 0x1)
+    if( ITEM_GET_FLAG(flag,Item_Update_Flag_ModeChange) )
     {//处理模式切换
        m_modeType  = (flag >> 6)& 0x1;
        itemProChangeOfMode();
     }
+
+    if(ITEM_GET_FLAG(flag,Item_Update_Flag_GetPro))
+    {//获取控件属性
+        (*(reinterpret_cast<QJsonObject*>(reslut))) = m_itemObj;
+    }
+
     return false;
 }
 

@@ -13,7 +13,7 @@ public:
     virtual void itemPaintEvent(QPaintEvent *event);
 
     //结果调用
-    virtual bool update_result(int flag = 0);
+    virtual bool update_result(int flag = 0, void *reslut = nullptr);
 
     //地址信息
     virtual bool update_addr(QList<Protocol::AddrInfoForRW>& addrList);

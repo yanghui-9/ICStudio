@@ -102,7 +102,7 @@ void UBitButton::itemPaintEvent(QPaintEvent *event)
     }
 }
 
-bool UBitButton::update_result(int flag)
+bool UBitButton::update_result(int flag, void *reslut)
 {
     if( ITEM_GET_FLAG(flag,Item_Update_Flag_ModeChange) )
     {//处理模式切换
@@ -136,6 +136,12 @@ bool UBitButton::update_result(int flag)
     {//属性编辑
        showProEditDlg();
     }
+
+    if(ITEM_GET_FLAG(flag,Item_Update_Flag_GetPro))
+    {//获取控件属性
+        (*(reinterpret_cast<QJsonObject*>(reslut))) = m_itemObj;
+    }
+
     return false;
 }
 

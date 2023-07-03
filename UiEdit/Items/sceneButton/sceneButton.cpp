@@ -95,8 +95,9 @@ void USceneButton::itemPaintEvent(QPaintEvent *event)
     p.drawText(QRectF(0,0,width(),height()),m_itemObj["text"].toString(),QTextOption(Qt::AlignCenter));
 }
 
-bool USceneButton::update_result(int flag)
+bool USceneButton::update_result(int flag, void *reslut)
 {
+    bool bRet = true;
     if( ITEM_GET_FLAG(flag,Item_Update_Flag_ModeChange) )
     {//处理模式切换
        m_modeType  = ITEM_GET_FLAG(flag,Item_Update_Flag_ModeChange_V);
@@ -107,10 +108,6 @@ bool USceneButton::update_result(int flag)
            m_proEditDlg = new sceneButtonProDlg(this,m_mainWin);
            m_proEditDlg->InitUI();
        }
-    }
-    if(ITEM_GET_FLAG(flag,Item_Update_Flag_Refresh))
-    {//主动刷新
-        return true;
     }
     if(ITEM_GET_FLAG(flag,Item_Update_Flag_SceneOpen))
     {//打开画面
@@ -123,7 +120,12 @@ bool USceneButton::update_result(int flag)
     {//属性编辑
        showProEditDlg();
     }
-    return false;
+
+    if(ITEM_GET_FLAG(flag,Item_Update_Flag_GetPro))
+    {//获取控件属性
+        (*(reinterpret_cast<QJsonObject*>(reslut))) = m_itemObj;
+    }
+    return bRet;
 }
 
 bool USceneButton::update_addr(QList<Protocol::AddrInfoForRW> &addrList)

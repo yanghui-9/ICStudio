@@ -18,6 +18,7 @@
 #define Item_Update_Flag_ModeChange_V     (6)      //模式切换结果
 #define Item_Update_Flag_Refresh          (7)      //主动刷新
 #define Item_Update_Flag_ProEdit          (8)      //控件属性编辑
+#define Item_Update_Flag_GetPro           (9)      //获取控件属性
 
 class interface_comm;
 class interface_gallery;
@@ -46,8 +47,9 @@ public:
     //第4位为1表示画面切换，显示当前画面
     //第5位为1表示运行编辑模式切换
     //第6位为1表示切换为运行模式，1表示编辑模式
-    virtual bool update_result(int flag = 0){
+    virtual bool update_result(int flag = 0, void *reslut = nullptr){
         Q_UNUSED(flag);
+        (void)reslut;
         return false;
     }
 

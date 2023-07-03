@@ -286,6 +286,15 @@ void UWidgetScene::initScenePropertyFromObj()
     }
 }
 
+void UWidgetScene::GetItemPro(QWidget *item, QJsonObject &obj)
+{
+    interface_item* iItem = dynamic_cast<interface_item*>(item);
+    if(iItem)
+    {
+        iItem->update_result(ITEM_SET_FLAG(0,Item_Update_Flag_GetPro),&obj);
+    }
+}
+
 void UWidgetScene::sceneCycScriptSlot()
 {
     //执行脚本
@@ -916,7 +925,17 @@ QWidget *UWidgetScene::cloneOfItem(QWidget *item,QWidget *parent)
     QString sClassName = item->property("z_class_name").toString();
     QWidget * newitem = itemsFactory::GetInstance()->createItemFromName(sClassName,
                                                                         parent==nullptr?qobject_cast<QWidget*>(item->parent()):parent);
-    itemsFactory::GetInstance()->createItemObjFromName(sClassName,newitem);
+    //属性配置
+    QJsonObject obj;
+    GetItemPro(item,obj);
+    if(obj.isEmpty())
+    {
+        itemsFactory::GetInstance()->createItemObjFromName(sClassName,newitem);
+    }
+    else
+    {
+        itemsFactory::GetInstance()->createItemObjFromName(sClassName,newitem,&obj);
+    }
 
     //属性
     initItem(newitem,sClassName,item->pos().x(),item->pos().y(),item->width(),item->height());

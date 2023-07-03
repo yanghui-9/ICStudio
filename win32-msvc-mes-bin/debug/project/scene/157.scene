@@ -5,8 +5,9 @@
     "window": null,
     "z_items": [
         {
-            "off_img": null,
-            "on_img": null,
+            "off_img": "",
+            "on_img": "",
+            "var": "0x1",
             "z_class_name": "Bit Button",
             "z_h": 89,
             "z_w": 157,
@@ -21,8 +22,18 @@
             "z_class_name": "Scene Button",
             "z_h": 55,
             "z_w": 112,
-            "z_x": 359,
-            "z_y": 43
+            "z_x": 213,
+            "z_y": 39
+        },
+        {
+            "off_img": "off1",
+            "on_img": "on0",
+            "var": "0x1",
+            "z_class_name": "Bit Button",
+            "z_h": 71,
+            "z_w": 64,
+            "z_x": 142,
+            "z_y": 117
         }
     ],
     "z_name": "NEW000",

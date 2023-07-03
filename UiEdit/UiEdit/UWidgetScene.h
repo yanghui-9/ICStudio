@@ -170,7 +170,10 @@ protected:
     void initScenePropertyFromObj();
 
     //初始化控件
-    void setEditOrRunMode(QWidget *item);
+    //void setEditOrRunMode(QWidget *item);
+
+    //获取控件属性
+    void GetItemPro(QWidget *item,QJsonObject &obj);
 
 protected slots:
     //画面循环脚本定时器
