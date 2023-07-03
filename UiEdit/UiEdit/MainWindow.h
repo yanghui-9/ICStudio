@@ -88,6 +88,10 @@ public slots:
     void tabSwitchSlot(int index);
     //自定义组件工具栏按下
     void dealCombineItemSlot();
+    //导出
+    void exportProjectSlot();
+    //导出
+    void importProjectSlot();
 
 private:
     //工具栏

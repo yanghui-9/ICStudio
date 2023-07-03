@@ -6,6 +6,8 @@
 #include <QCryptographicHash>
 #include <QSettings>
 #include <QTextCodec>
+#include <QFileInfoList>
+
 
 //判断压缩文件是否加密
 bool JudgePassWord(const std::string &sFileName)
@@ -241,4 +243,53 @@ uint64_t Tools_GetDirSize(std::string *sdirPath)
 {
     QString sPath = QString::fromLocal8Bit(sdirPath->data());
     return GetDirSize(sPath);
+}
+
+
+/*********************************************************************/
+  /*功能：拷贝文件夹
+    qCopyDirectory -- 拷贝目录
+    fromDir : 源目录
+    toDir   : 目标目录
+    bCoverIfFileExists : ture:同名时覆盖  false:同名时返回false,终止拷贝
+    返回: ture拷贝成功 false:拷贝未完成*/
+/***********************************************************************/
+bool Tools_CopyDirectory(const std::string& fromDir, const std::string& toDir, bool bCoverIfFileExists)
+{
+    QDir formDir_(QString::fromLocal8Bit( fromDir.data() ));
+    QDir toDir_(QString::fromLocal8Bit( toDir.data() ));
+
+    if(!toDir_.exists())
+    {
+        if(!toDir_.mkdir(toDir_.absolutePath()))
+            return false;
+    }
+
+    QFileInfoList fileInfoList = formDir_.entryInfoList();
+    foreach(QFileInfo fileInfo, fileInfoList)
+    {
+        if(fileInfo.fileName() == "." || fileInfo.fileName() == "..")
+            continue;
+
+        //拷贝子目录
+        if(fileInfo.isDir())
+        {
+            //递归调用拷贝
+            if(!Tools_CopyDirectory(fileInfo.filePath().toStdString(), toDir_.filePath(fileInfo.fileName()).toStdString(),true))
+                return false;
+        }
+        //拷贝子文件
+        else
+        {
+            if(bCoverIfFileExists && toDir_.exists(fileInfo.fileName()))
+            {
+                toDir_.remove(fileInfo.fileName());
+            }
+            if(!QFile::copy(fileInfo.filePath(), toDir_.filePath(fileInfo.fileName())))
+            {
+                return false;
+            }
+        }
+    }
+    return true;
 }

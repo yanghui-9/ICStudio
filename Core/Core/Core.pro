@@ -50,10 +50,14 @@ include(Process/Process.pri)
 
 #App
 LIBS += -L$$DESTDIR -lApp
+
 #Tools
 LIBS += -L$$DESTDIR -lTools
+INCLUDEPATH += $$PWD/../../Libs
+
 #Communication
 LIBS += -L$$DESTDIR -lcommunication
+
 #Interface
 INCLUDEPATH += $$PWD/../../Interface
 

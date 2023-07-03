@@ -7,22 +7,40 @@
             "off_img": null,
             "on_img": null,
             "z_class_name": "Bit Button",
-            "z_h": 177,
+            "z_h": 153,
             "z_name": "",
-            "z_w": 256,
+            "z_w": 208,
             "z_x": 145,
-            "z_y": 159
+            "z_y": 192
         },
         {
-            "background_color": 14474460,
-            "background_type": 0,
-            "scene": "1254",
-            "text": "切换到首页",
-            "z_class_name": "Scene Button",
-            "z_h": 52,
-            "z_w": 170,
-            "z_x": 235,
-            "z_y": 66
+            "z_class_name": "combine",
+            "z_h": 293,
+            "z_items": [
+                {
+                    "off_img": null,
+                    "on_img": null,
+                    "z_class_name": "Bit Button",
+                    "z_h": 203,
+                    "z_w": 284,
+                    "z_x": 6,
+                    "z_y": 82
+                },
+                {
+                    "background_color": 14474460,
+                    "background_type": 0,
+                    "scene": "1254",
+                    "text": "切换到首页",
+                    "z_class_name": "Scene Button",
+                    "z_h": 69,
+                    "z_w": 232,
+                    "z_x": 34,
+                    "z_y": 6
+                }
+            ],
+            "z_w": 298,
+            "z_x": 579,
+            "z_y": 54
         }
     ],
     "z_name": "NEW000",

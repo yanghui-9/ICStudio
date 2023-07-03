@@ -43,10 +43,10 @@ LONG ApplicationCrashHandler(EXCEPTION_POINTERS *pException)
     return EXCEPTION_EXECUTE_HANDLER;
 }
 
-bool checkSingleApp()
+static bool CheckSingleApp()
 {
     //本测试程序id取名
-    QString path = QDir::temp().absoluteFilePath("ICStudio.lock");
+    QString path = QDir::temp().absoluteFilePath(QString("%1.lock").arg(qApp->applicationName()));
     static QLockFile lockFile(path);
     if (!lockFile.tryLock(0))
     {
@@ -67,7 +67,7 @@ int main(int argc, char *argv[])
     a.setWindowIcon(QIcon("://image/logo.ico"));
 
     //检查是否已经运行
-    if (!checkSingleApp())
+    if (!CheckSingleApp())
     {
         QMessageBox msgBox;
         msgBox.setIcon(QMessageBox::Warning);

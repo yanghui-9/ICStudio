@@ -21,6 +21,8 @@
 #include "CustomComponentsDlg.h"
 #include "DisplayCustomComponentsDlg.h"
 
+#include "Tools/tools.h"
+
 MainWindow::MainWindow(std::shared_ptr<interface_comm> comm, QWidget *parent) :
     QMainWindow(parent),m_comm(comm)
 {
@@ -171,6 +173,20 @@ void MainWindow::InitToolBars()
     compileAC->setText(QString::fromLocal8Bit("编译"));
     connect(compileAC,SIGNAL(triggered()),this,SLOT(compileSlot()));
     m_fileToolBar->addAction(compileAC);
+
+    //导入
+    QAction * importAC = new QAction(this);
+    importAC->setIcon(QIcon(":/image/import.png"));
+    importAC->setText(QString::fromLocal8Bit("导入"));
+    connect(importAC,SIGNAL(triggered()),this,SLOT(importProjectSlot()));
+    m_fileToolBar->addAction(importAC);
+
+    //导出
+    QAction * exportAC = new QAction(this);
+    exportAC->setIcon(QIcon(":/image/export.png"));
+    exportAC->setText(QString::fromLocal8Bit("导出"));
+    connect(exportAC,SIGNAL(triggered()),this,SLOT(exportProjectSlot()));
+    m_fileToolBar->addAction(exportAC);
 
     addToolBar(m_fileToolBar);
 
@@ -418,6 +434,74 @@ void MainWindow::dealCombineItemSlot()
     if(ac)
     {
         CustomItemselectDeal(ac->text());
+    }
+}
+
+void MainWindow::exportProjectSlot()
+{
+    //获取导出文件名称和路径
+    QString sFileName =  QFileDialog::getSaveFileName(this, QStringLiteral("导出"),"","Files (*.pic)");
+    if(sFileName.isEmpty())
+    {
+        return;
+    }
+
+    //先删除文件
+    QFile::remove(sFileName);
+
+    //开始导出
+    QProcess myProcess;
+    QStringList args;
+    args.append("a");
+    args.append(sFileName);
+    args.append(".\\project");
+    args.append("-r");
+    args.append("-y");
+    args.append("-pyangzezhou2023");
+    myProcess.start("./7z.exe",args);
+    myProcess.waitForFinished();
+    QString sReturn = QString::fromUtf8( myProcess.readAllStandardOutput() );
+    if(sReturn.contains("cannot open") || sReturn.contains("Errors:"))
+    {
+        QMessageBox::warning(this,QStringLiteral("导出"),QStringLiteral("导出失败"));
+    }
+}
+
+void MainWindow::importProjectSlot()
+{
+    //获取导入文件名称和路径
+    QString sFileName =  QFileDialog::getOpenFileName(this,QStringLiteral("导入"),"","Files (*.pic)");
+    if(sFileName.isEmpty())
+    {
+        QMessageBox::warning(this,QStringLiteral("导入失败"),QStringLiteral("文件不存在"));
+        return;
+    }
+
+    QProcess myProcess;
+    QStringList args;
+    args.append("x");
+    args.append(sFileName);
+    args.append("-o.\\project_Tmp");
+    args.append("-r");
+    args.append("-y");
+    args.append("-pyangzezhou2023");
+    myProcess.start("./7z.exe",args);
+    myProcess.waitForFinished();
+    QString sReturn = QString::fromUtf8( myProcess.readAllStandardOutput() );
+    if(sReturn.contains("Can't open as archive") || sReturn.contains("Errors:"))
+    {//导入失败
+        QMessageBox::warning(this,QStringLiteral("导入失败"),QStringLiteral("工程解压失败"));
+        return;
+    }
+    else
+    {//导入成功
+        QDir rmDir;
+        rmDir.rmdir("./project");
+        if(Tools_CopyDirectory("./project_Tmp/project","./project",true))
+        {
+            OpenCurrentSession();
+            QMessageBox::information(this,QStringLiteral("导入"),QStringLiteral("导入成功"));
+        }
     }
 }
 

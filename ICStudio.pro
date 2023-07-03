@@ -1,6 +1,7 @@
 TEMPLATE = subdirs
 CONFIG  += ordered
 
+SUBDIRS += Libs
 SUBDIRS += Core
 SUBDIRS += communication
 SUBDIRS += CommunicationProtocol

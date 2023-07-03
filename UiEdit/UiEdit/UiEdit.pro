@@ -34,8 +34,11 @@ CONFIG(debug, debug|release){
 #INCLUDEPATH += $$PWD/../../3rdparty/glog/include
 #App
 LIBS += -L$$libPath -lApp
+
 #Tools
 LIBS += -L$$libPath -lTools
+INCLUDEPATH += $$PWD/../../Libs
+
 #Interface
 INCLUDEPATH +=  $$PWD/../../Interface
 

@@ -35,8 +35,11 @@ SOURCES += \
 #GLOG
     LIBS += -L$$PWD/../../3rdparty/glog/lib/ -lglog
     INCLUDEPATH += $$PWD/../../3rdparty/glog/include
+
 #Tools
 LIBS += -L$$DESTDIR -lTools
+INCLUDEPATH += $$PWD/../../Libs
+
 #Interface
 INCLUDEPATH += $$PWD/../../Interface
 

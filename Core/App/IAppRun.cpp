@@ -5,7 +5,7 @@
 #include <QFile>
 #include <glog/logging.h>
 #include "event_def.h"
-#include "../Tools/tools.h"
+#include "Tools/tools.h"
 
 Y_EXPORT IAPP * IAPP::Instance = nullptr;
 

@@ -24,16 +24,10 @@ CONFIG(debug, debug|release){
 TARGET = Tools
 
 HEADERS += \
-    ErrCodeHelp.h \
-    SqlManagement.h \
-    checknetworkconnection.h \
     excel.h \
     tools.h
 
 SOURCES += \
-    ErrCodeHelp.cpp \
-    SqlManagement.cpp \
-    checknetworkconnection.cpp \
     excel.cpp \
     tools.cpp
 

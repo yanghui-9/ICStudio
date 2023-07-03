@@ -62,5 +62,7 @@
 		<file>image/custom item setting.png</file>
 		<file>image/custom item display.png</file>
 		<file>image/system setting.png</file>
+		<file>image/import.png</file>
+		<file>image/export.png</file>
     </qresource>
 </RCC>
