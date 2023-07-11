@@ -13,11 +13,11 @@ struct AddrInfo
     uint64_t len = 1;    //位的长度.
 
     uint64_t beginIndex = 0;//解析数据部分开始索引.(字节单位)
-    uint64_t dataLen = 0;//解析数据的长度.（位单位）
+    uint64_t dataLen = 0;   //解析数据长度(字节)
     uint16_t bitOffset = 0;//位偏移
     std::vector<Protocol::AddrInfoForRW> varList; //读的变量信息列表.
 
-    AddrInfo(const std::string &_reg,uint64_t _index,uint64_t _len):reg(_reg),index(_index),len(_len),dataLen(_len){}
+    AddrInfo(const std::string &_reg,uint64_t _index,uint64_t _len):reg(_reg),index(_index),len(_len){}
     AddrInfo(){}
 
     bool operator == (const AddrInfo & info) const

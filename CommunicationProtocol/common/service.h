@@ -34,7 +34,8 @@ public:
     enum Frame_Data_Type
     {
         frame_hex = 0, //帧格式16进制.
-        frame_asc      //asc帧格式.
+        frame_asc,      //asc帧格式.
+        frame_asc_sData  //asc帧格式，按数据类型转
     };
 
     enum Check_Reslut_Type  //解析数据返回结果类型.
@@ -61,6 +62,7 @@ public:
     //std::variant2char*
     void Variant2Char(const Protocol::DataVariant &dataV, char * value);
     void Char2Variant(Protocol::Protocol_DataType dataType,char * value, Protocol::DataVariant &data);
+    static void StringToCharOfDataType(Protocol::Protocol_DataType dataType,const std::string &sData, char *data);
 
     //地址转换.
     int32_t AddrS2D(const std::string &reg,const std::string &sIndex,uint64_t &index);
@@ -150,8 +152,6 @@ private:
 private:
     //获取地址块的迭代器，不存在则插入地址块.
     std::set<Data_Area>::iterator GetDataAreaIterator(Data_Area &dataA);
-    //处理数据区
-    DataAreaDeal m_DataAreaDeal;
 
 public:
     std::shared_ptr<ICommunication> m_comm;
@@ -234,6 +234,9 @@ public:
 
     //实现.
     std::shared_ptr<Protocol_Interface> m_MDevice;
+
+    //处理数据区
+    DataAreaDeal m_DataAreaDeal;
 };
 
 #endif // device_H

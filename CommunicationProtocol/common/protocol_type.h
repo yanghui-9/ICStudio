@@ -13,6 +13,7 @@
 #define Protocol_Process_W_Suc (3)
 #define Protocol_Process_W_NoData (4)
 #define Protocol_Process_W_CheckError (5)
+#define Protocol_Process_W_DataTypeError (6)
 
 
 #define Protocol_Rtn_Success (0)

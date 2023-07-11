@@ -204,16 +204,27 @@ void Protocol_Interface::DealByteOrder(char *value, const uint32_t &dataType)
 int32_t Protocol_Interface::DealRecvData(AddrInfo &addrinfo, char *data)
 {
     //asc转换hex处理.
-    if(Device::frame_asc == Device::GetInstance().m_iFrameDataFormat)
+    switch (Device::GetInstance().m_iFrameDataFormat) {
+    case Device::frame_asc:
     {
         data = data + addrinfo.beginIndex;
         uint64_t sizeB;
         sizeB = addrinfo.len/8;
-        for (uint32_t i = 0 ; i < sizeB/2; i++)
+        for (uint32_t i = 0 ; i < sizeB; i++)
         {
             data[i] = static_cast<char>( (a2d_(*(data+(i*2+0))) << 4) + a2d_(*(data+(i*2+1))) );
         }
-        addrinfo.len = addrinfo.len/2;
+    }
+        break;
+    case Device::frame_asc_sData:
+    {
+        if(0 < addrinfo.varList.size() )
+        {
+            std::string sData(data+addrinfo.beginIndex,addrinfo.dataLen);
+            Device::StringToCharOfDataType(addrinfo.varList.front().dataType,sData,data+addrinfo.beginIndex);
+        }
+    }
+        break;
     }
     return 0;
 }

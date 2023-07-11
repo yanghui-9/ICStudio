@@ -113,6 +113,14 @@ PROTOCOLSHARED_EXPORT int32_t SetValue(Protocol::AddrInfoForRW *addr, Protocol::
     Device &D = Device::GetInstance();
     Protocol::Write_Opt_Type OptType = WType;
 
+    //判断写入数据类型是否保持一致
+    if(addr && addr->dataType != addr->value.index())
+    {
+        std::vector<Protocol::AddrInfoForRW> addrList;
+        D.UpdataProcessResultToDataArea(Protocol_Process_W_DataTypeError,addrList);
+        return Protocol_Rtn_Fail;
+    }
+
     //判断读写类型.
     Protocol::RegInfo rInfo;
     if(Protocol_Rtn_Success == D.GetRefInfoFromReg(addr->reg,rInfo))

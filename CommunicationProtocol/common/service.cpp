@@ -461,6 +461,73 @@ void Device::Char2Variant(Protocol_DataType dataType,char *value, DataVariant &d
     }
 }
 
+void Device::StringToCharOfDataType(Protocol_DataType dataType, const std::string &sData, char *data)
+{
+    //开始数据转换.
+    switch (dataType) {
+    case Protocol::bit:
+    case Protocol::bit8:
+    case Protocol::ubit8:
+    {
+        int iValue = std::stoi(sData);
+        memcpy(data,&iValue,1);
+    }
+        break;
+    case Protocol::ubit16:
+    {
+        ushort iValue = static_cast<ushort>( std::stoi(sData) );
+        memcpy(data,&iValue,2);
+    }
+        break;
+    case Protocol::bit16:
+    {
+        short iValue = static_cast<short>( std::stoi(sData) );
+        memcpy(data,&iValue,2);
+    }
+        break;
+    case Protocol::ubit32:
+    {
+        uint32_t iValue = static_cast<uint32_t>( std::stoi(sData) );
+        memcpy(data,&iValue,4);
+    }
+        break;
+    case Protocol::bit32:
+    {
+        int32_t iValue = static_cast<int32_t>( std::stoi(sData) );
+        memcpy(data,&iValue,4);
+    }
+        break;
+    case Protocol::float32:
+    {
+        float iValue = std::stof(sData);
+        memcpy(data,&iValue,4);
+    }
+        break;
+    case Protocol::ubit64:
+    {
+        uint64_t iValue = static_cast<uint64_t>( std::stoull(sData) );
+        memcpy(data,&iValue,8);
+    }
+        break;
+    case Protocol::bit64:
+    {
+        int64_t iValue = static_cast<int64_t>( std::stoull(sData) );
+        memcpy(data,&iValue,8);
+    }
+        break;
+    case Protocol::double64:
+    {
+        double iValue = std::stod(sData);
+        memcpy(data,&iValue,8);
+    }
+        break;
+    default:
+    {
+        //
+    }
+    }
+}
+
 int32_t Device::AddrS2D(const std::string &reg, const std::string &sIndex, uint64_t &index)
 {
     if(m_MDevice)
@@ -502,23 +569,24 @@ void Device::MergeAddr(Type type)
         m_curReadIndex = 0;
         m_cycMixedRead.clear();
 
-#if 0
-        for (auto var : addrList) {
-            qDebug()<<"begin:"<<QString::fromStdString( var.reg )<<var.index<<var.len;
+#ifdef DEBUG_LOG
+        for (const auto &var : addrList) {
+           LOG(INFO)<<"******begin: "<<var.reg<<var.index<<var.len;
         }
 #endif
+
         //1.先排序.
         addrList.sort();
+#ifdef DEBUG_LOG
+        for (const auto &var : addrList) {
+            LOG(INFO)<<"******sort: "<<var.reg<<var.index<<var.len;
+        }
+#endif
 
-        //2.去重+合并.
+        //2.去重+合并.Deduplication+merging
         static int32_t intervallen = -1;//最大间隔.
         static int32_t maxLen = -1;//最大包长度.
         static std::list<AddrInfo>::iterator itSecnod;
-#if 0
-        for (auto var : addrList) {
-            qDebug()<<"end1:"<<QString::fromStdString( var.reg )<<var.index<<var.len;
-        }
-#endif
         for (std::list<AddrInfo>::iterator itFirst = addrList.begin(); itFirst != addrList.end();)
         {
             itSecnod = itFirst;
@@ -557,11 +625,12 @@ void Device::MergeAddr(Type type)
                ++itFirst;
             }
         }
-#if 0
-        for (auto var : addrList) {
-            qDebug()<<"end2:"<<QString::fromStdString( var.reg )<<var.index<<var.len;
+#ifndef DEBUG_LOG
+        for (const auto &var : addrList) {
+            LOG(INFO)<<"******deduplication+merging: "<<var.reg<<var.index<<var.len;
         }
 #endif
+
         //放入循环读取列表.
         m_cycReadVector.assign(addrList.begin(),addrList.end());
 
@@ -584,6 +653,11 @@ void Device::MergeAddr(Type type)
                     mixBlockBeginIndex = index;
                 }
             }
+#ifndef DEBUG_LOG
+        for (const auto &var : m_cycMixedRead) {
+            LOG(INFO)<<"******MixedRead: "<<var;
+        }
+#endif
         }
     }
 }
@@ -1289,18 +1363,11 @@ void Device::AddCommStatusRegInfo()
 
 void Device::UpdataProcessResultToDataArea(int32_t ret, const std::vector<AddrInfoForRW> &addrList)
 {
+    SetDataFromAddrAndDatatype(Protocol_Status_Reg_Name,16,Protocol::ubit16,ushort(ret));
     switch (ret) {
-    case Protocol_Process_R_Suc:
-    case Protocol_Process_W_Suc:
-    case Protocol_Process_Null :
-    {
-        SetDataFromAddrAndDatatype(Protocol_Status_Reg_Name,16,Protocol::ubit16,ushort(0));
-    }
-        break;
     case Protocol_Process_R_NoData:
     case Protocol_Process_W_NoData:
     {
-        SetDataFromAddrAndDatatype(Protocol_Status_Reg_Name,16,Protocol::ubit16,ushort(1));
         if(m_deviceConfig.commInfo.isOpenErrLog)
         {
            QString sErr;
@@ -1327,7 +1394,6 @@ void Device::UpdataProcessResultToDataArea(int32_t ret, const std::vector<AddrIn
     case Protocol_Process_R_CheckError:
     case Protocol_Process_W_CheckError:
     {
-        SetDataFromAddrAndDatatype(Protocol_Status_Reg_Name,16,Protocol::ubit16,ushort(2));
         if(m_deviceConfig.commInfo.isOpenErrLog)
         {
             QString sErr;
