@@ -9,7 +9,7 @@
 #include "../../communication/communicationglobal.h"
 
 #include "glog/logging.h"
-#include "../../Interface/IApp.h"
+#include "../../MesHost/MesHost/Interface/IApp.h"
 
 using namespace Protocol;
 
@@ -388,8 +388,9 @@ void Device::Variant2Char(const DataVariant &dataV, char *value)
     }
 }
 
-void Device::Char2Variant(Protocol_DataType dataType,char *value, DataVariant &data)
+void Device::Char2Variant(Protocol_DataType dataType,std::vector<char> &valueV, DataVariant &data)//std::vector<char>
 {
+    char *value = valueV.data();
     //开始数据转换.
     switch (dataType) {
     case Protocol::bit:
@@ -452,6 +453,11 @@ void Device::Char2Variant(Protocol_DataType dataType,char *value, DataVariant &d
     case Protocol::double64:
     {
         data = *(static_cast<double *>(static_cast<void *>(value)));
+    }
+        break;
+    case Protocol::string:
+    {
+        data = std::string(value,valueV.size());
     }
         break;
     default:
@@ -574,16 +580,16 @@ void Device::MergeAddr(Type type)
            LOG(INFO)<<"******begin: "<<var.reg<<var.index<<var.len;
         }
 #endif
-
         //1.先排序.
         addrList.sort();
+
 #ifdef DEBUG_LOG
         for (const auto &var : addrList) {
             LOG(INFO)<<"******sort: "<<var.reg<<var.index<<var.len;
         }
 #endif
 
-        //2.去重+合并.Deduplication+merging
+        //2.去重+合并.
         static int32_t intervallen = -1;//最大间隔.
         static int32_t maxLen = -1;//最大包长度.
         static std::list<AddrInfo>::iterator itSecnod;
@@ -625,12 +631,11 @@ void Device::MergeAddr(Type type)
                ++itFirst;
             }
         }
-#ifndef DEBUG_LOG
+#ifdef DEBUG_LOG
         for (const auto &var : addrList) {
             LOG(INFO)<<"******deduplication+merging: "<<var.reg<<var.index<<var.len;
         }
 #endif
-
         //放入循环读取列表.
         m_cycReadVector.assign(addrList.begin(),addrList.end());
 
@@ -653,7 +658,7 @@ void Device::MergeAddr(Type type)
                     mixBlockBeginIndex = index;
                 }
             }
-#ifndef DEBUG_LOG
+#ifdef DEBUG_LOG
         for (const auto &var : m_cycMixedRead) {
             LOG(INFO)<<"******MixedRead: "<<var;
         }
@@ -1003,7 +1008,7 @@ int32_t Device::GetLastData(AddrInfoForRW &addr)
             }
         }
         //读值.
-        if(Protocol::string != addr.dataType)
+        //if(Protocol::string != addr.dataType)
         {
             //开始.
             uint64_t index = addr.index;
@@ -1025,7 +1030,7 @@ int32_t Device::GetLastData(AddrInfoForRW &addr)
                         m_MDevice->DealByteOrder(bufv.data(),addr.dataType);
                 }
                 //数据转换.
-                Char2Variant(addr.dataType,bufv.data(),addr.value);
+                Char2Variant(addr.dataType,bufv,addr.value);
             }
         }
     }

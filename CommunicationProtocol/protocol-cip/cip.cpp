@@ -393,7 +393,7 @@ int32_t cip::CheckFrame(Frame &recvF)
                            recvF.readList.at(num).beginIndex = 44+offset+6;
                        }
                        //recvF.recvDataLen.emplace_back(dataLen*8);
-                       recvF.readList.at(num).dataLen= dataLen*8;
+                       recvF.readList.at(num).len= dataLen*8;
                    }
                 }
             }
@@ -422,7 +422,7 @@ int32_t cip::CheckFrame(Frame &recvF)
                 recvF.readList.front().beginIndex = 40+6;
             }
             //recvF.recvDataLen.emplace_back(dataLen*8);
-            recvF.readList.front().dataLen = dataLen*8;
+            recvF.readList.front().len = dataLen*8;
             return Device::normal;
         }
     }

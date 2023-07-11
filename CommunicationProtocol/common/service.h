@@ -61,7 +61,7 @@ public:
 
     //std::variant2char*
     void Variant2Char(const Protocol::DataVariant &dataV, char * value);
-    void Char2Variant(Protocol::Protocol_DataType dataType,char * value, Protocol::DataVariant &data);
+    void Char2Variant(Protocol::Protocol_DataType dataType, std::vector<char> &valueV, Protocol::DataVariant &data);
     static void StringToCharOfDataType(Protocol::Protocol_DataType dataType,const std::string &sData, char *data);
 
     //地址转换.
@@ -152,6 +152,8 @@ private:
 private:
     //获取地址块的迭代器，不存在则插入地址块.
     std::set<Data_Area>::iterator GetDataAreaIterator(Data_Area &dataA);
+    //处理数据区
+    DataAreaDeal m_DataAreaDeal;
 
 public:
     std::shared_ptr<ICommunication> m_comm;
@@ -234,9 +236,6 @@ public:
 
     //实现.
     std::shared_ptr<Protocol_Interface> m_MDevice;
-
-    //处理数据区
-    DataAreaDeal m_DataAreaDeal;
 };
 
 #endif // device_H
