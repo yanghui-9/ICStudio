@@ -120,26 +120,6 @@ int32_t Device::RecvData()
     return ret;
 }
 
-std::set<Data_Area>::iterator Device::GetDataAreaIterator(Data_Area &dataA)
-{
-    std::set<Data_Area>::iterator it =  m_dataArea.find(dataA);
-    if(it == m_dataArea.end())
-    {
-        //先初始化地址块再插入.
-        dataA.index = ( dataA.index/(ADDRESS_AREA_UNIT*8) )*(ADDRESS_AREA_UNIT*8);
-        memset(dataA.data,0,ADDRESS_AREA_UNIT);
-        m_dataAreaLock.lock();//插入锁.
-        auto pair =  m_dataArea.insert(dataA);
-        m_dataAreaLock.unlock();
-        if(!pair.second)
-        {
-            return m_dataArea.end();
-        }
-        it = pair.first;
-    }
-    return it;
-}
-
 Device &Device::GetInstance()
 {
     static Device driver;
@@ -164,6 +144,16 @@ int32_t Device::GetRefInfoFromReg(const std::string &reg,RegInfo &info)
 #endif
     }
     return Protocol_Rtn_Fail;
+}
+
+int32_t Device::GetRegUint(const std::string &reg)
+{
+    RegInfo info;
+    if(Protocol_Rtn_Fail == GetRefInfoFromReg(reg,info))
+    {
+        return  Protocol_Rtn_Fail;
+    }
+    return static_cast<int32_t>( info.unitBitNum );
 }
 
 int32_t Device::GetPackageParameters(std::string &reg,int32_t &interval, int32_t &max)
@@ -703,8 +693,10 @@ int32_t Device::AnalysisFrame(Frame &recvF)
            for(std::vector<Protocol::AddrInfoForRW>::iterator it = itAddr->varList.begin();
                it != itAddr->varList.end();++ it)
            {
-               ret = m_DataAreaDeal.SetDataFromAddr(it->reg,it->index,
-                                                    it->len,recvF.GetRecvBuff() + GetBeginIndex(*it,*itAddr),
+               ret = m_DataAreaDeal.SetDataFromAddr(it->reg,
+                                                    it->index,
+                                                    it->len,
+                                                    recvF.GetRecvBuff() + GetBeginIndex(*it,*itAddr),
                                                     static_cast<uint16_t>( GetBitOffset(*it,*itAddr)) );
            }
        }
@@ -937,12 +929,6 @@ int32_t Device::BuildSendFrame(std::vector<Protocol::AddrInfoForRW> &addrVec)
     return ret;
 }
 
-void Device::DealIndexAlignOfByteForRead(uint64_t &index, uint64_t &len)
-{//以8为单位对齐.
-   len += index%8;
-   index -= index%8;
-}
-
 void Device::AddrInfoForRWOfLen(AddrInfoForRW &addrForRW)
 {
     switch (addrForRW.dataType) {
@@ -1011,13 +997,12 @@ int32_t Device::GetLastData(AddrInfoForRW &addr)
         //if(Protocol::string != addr.dataType)
         {
             //开始.
-            uint64_t index = addr.index;
             uint64_t len = addr.len;
             //初始化buf.
             std::vector<char> bufv;
             bufv.resize(len%8 == 0 ?len/8:len/8+1);
             //一次性获取数据.
-            if(-1 == m_DataAreaDeal.GetDataFromAddr(addr.reg,index,len,bufv.data()))
+            if(-1 == m_DataAreaDeal.GetDataFromAddr(addr.reg,addr.index,len,bufv.data()))
             {
                 ret = Protocol_Rtn_Fail;
             }
@@ -1057,7 +1042,7 @@ int32_t Device::SetLastData(Protocol::AddrInfoForRW &addr)
         uint64_t len = addr.len;
         //初始化buf.
         std::vector<char> bufv;
-        bufv.resize( len%8 == 0 ?len/8:len/8+1 );
+        bufv.resize(len%8 == 0 ?len/8:len/8+1);
         //数据转换.
         Variant2Char(addr.value,bufv.data());
         //判断字和位.
@@ -1068,7 +1053,7 @@ int32_t Device::SetLastData(Protocol::AddrInfoForRW &addr)
                 m_MDevice->DealByteOrder(bufv.data(),addr.dataType);
         }
         //数据写入.
-        if(-1 == m_DataAreaDeal.SetDataFromAddr(addr.reg,addr.index,addr.len,bufv.data(),0))
+        if(-1 == m_DataAreaDeal.SetDataFromAddr(addr.reg,addr.index,len,bufv.data(),0))
         {
             ret = Protocol_Rtn_Fail;
         }
@@ -1342,7 +1327,7 @@ void Device::GetBitNumFromDatatype(Protocol_DataType dataType, uint64_t &bitNum)
         break;
     case string:
     {
-        //bitNum = 0;
+        bitNum = bitNum*8;
     }
         break;
     default:

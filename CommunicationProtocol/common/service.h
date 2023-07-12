@@ -49,6 +49,8 @@ public:
 
     //获取地址区信息.
     int32_t GetRefInfoFromReg(const std::string &reg, Protocol::RegInfo &info);
+    //获取寄存器地址单位（位）
+    int32_t GetRegUint(const std::string &reg);
 
     //获取组包参数.
     int32_t GetPackageParameters(std::string &reg, int32_t &interval, int32_t &max);
@@ -80,9 +82,6 @@ public:
 
     //一轮通讯结束结果处理.
     void DealCommunicationFinish(int32_t optFlag, const Frame &curFrame , int32_t result);
-
-    //处理读地址信息中的地址索引字节对齐.
-    void DealIndexAlignOfByteForRead(uint64_t &index, uint64_t &len);
 
     //地址数据结构转换.
     void AddrInfoForRWOfLen(Protocol::AddrInfoForRW &addrForRW);
@@ -150,8 +149,6 @@ private:
 
 
 private:
-    //获取地址块的迭代器，不存在则插入地址块.
-    std::set<Data_Area>::iterator GetDataAreaIterator(Data_Area &dataA);
     //处理数据区
     DataAreaDeal m_DataAreaDeal;
 

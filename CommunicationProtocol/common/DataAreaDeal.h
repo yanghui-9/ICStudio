@@ -13,9 +13,11 @@ public:
     virtual ~DataAreaDeal();
 
     //获取地址缓存中的数据.
+    //len的单位是位
     int32_t GetDataFromAddr(const std::string &reg, uint64_t index, uint64_t len ,char * data, uint16_t bitOffset = 0);
 
     //设置地址缓存数据.
+    //dataLen的单位是位
     int32_t SetDataFromAddr(const std::string &reg, uint64_t index, uint64_t dataLen ,char * data, uint16_t bitOffset = 0);
 
     //设置地址变化回调信息.

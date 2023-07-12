@@ -214,13 +214,13 @@ PROTOCOLSHARED_EXPORT int32_t GetValue(Protocol::AddrInfoForRW *addr,Protocol::R
 
     //分类处理.
     switch (RType) {
-    case 0:
+    case Protocol::CurrentValue:
     {//获取当前读到了最新值.
         ret = D.GetLastData(*addr);
     }
         break;
-    case 1:
-    case 2:
+    case Protocol::SyncRead:
+    case Protocol::AsynRead:
     {//同步设备读.
         //从站和离线模式不支持同步异步.
         if( Protocol::Slave == D.m_deviceConfig.protocolInfo.masterOrSlave || !D.m_deviceConfig.commInfo.isOnline)
