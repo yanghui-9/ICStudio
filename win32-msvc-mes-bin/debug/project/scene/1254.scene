@@ -57,6 +57,24 @@
             "z_w": 99,
             "z_x": 123,
             "z_y": 210
+        },
+        {
+            "off_img": "off1",
+            "on_img": "on0",
+            "var": "status",
+            "z_class_name": "Bit Button",
+            "z_h": 76,
+            "z_w": 104,
+            "z_x": 297,
+            "z_y": 212
+        },
+        {
+            "text": null,
+            "z_class_name": "TextEdit",
+            "z_h": 164,
+            "z_w": 378,
+            "z_x": 593,
+            "z_y": 132
         }
     ],
     "z_name": "NEW000",

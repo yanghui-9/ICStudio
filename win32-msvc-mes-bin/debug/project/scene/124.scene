@@ -43,6 +43,33 @@
             "z_w": 242,
             "z_x": 136,
             "z_y": 33
+        },
+        {
+            "text": "4x1",
+            "var": "4x1",
+            "z_class_name": "TextEdit",
+            "z_h": 50,
+            "z_w": 92,
+            "z_x": 219,
+            "z_y": 193
+        },
+        {
+            "text": "status0",
+            "var": "status0",
+            "z_class_name": "TextEdit",
+            "z_h": 53,
+            "z_w": 92,
+            "z_x": 416,
+            "z_y": 99
+        },
+        {
+            "text": "status1",
+            "var": "status1",
+            "z_class_name": "TextEdit",
+            "z_h": 53,
+            "z_w": 92,
+            "z_x": 506,
+            "z_y": 100
         }
     ],
     "z_name": "NEW000",

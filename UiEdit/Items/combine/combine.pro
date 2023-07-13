@@ -6,7 +6,6 @@ CONFIG += shared
 
 DEFINES += _ITEM
 #DEFINES += QT_NO_DEBUG_OUTPUT
-QMAKE_CXXFLAGS += -U__STRICT_ANSI__
 
 
 #mingw

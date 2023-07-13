@@ -76,14 +76,14 @@ int32_t SerialComm::RecvData(char *pBuffer, int32_t &iLength, uint32_t uiDelayTi
             memcpy(pBuffer,m_cacheBuff,static_cast<uint32_t>(iLength) );
             readLen = iLength;
             m_cacheLen -= iLength;
-            iLength = m_cacheLen;
+            //iLength = m_cacheLen;
             flag = readLen;
         }
         else
         {
            memcpy(pBuffer,m_cacheBuff,static_cast<uint32_t>(m_cacheLen) );
            readLen += m_cacheLen;
-           iLength -= m_cacheLen;
+           //iLength -= m_cacheLen;
            m_cacheLen = 0;
         }
     }
@@ -107,7 +107,7 @@ int32_t SerialComm::RecvData(char *pBuffer, int32_t &iLength, uint32_t uiDelayTi
                 {//缓存存的下，超过缓存就丢掉.
                     memcpy(m_cacheBuff + m_cacheLen,buf+(iLength -readLen),static_cast<uint32_t>(readLen+ilen-iLength) );
                     m_cacheLen += readLen+ilen-iLength;
-                    iLength = m_cacheLen;//缓存长度返回，待接收字节数.
+                    //iLength = m_cacheLen;//缓存长度返回，待接收字节数.
                 }
                 readLen += (iLength -readLen );
                 break;

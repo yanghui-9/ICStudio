@@ -33,6 +33,7 @@ public:
       * return,执行返回结果
      */
     virtual int RegisterEvent(std::vector<int> &eventList){
+         (void)eventList;
          return -1;
      }
      /*
@@ -41,6 +42,7 @@ public:
       * return,执行返回结果
      */
     virtual int EventCall(HEvent * event){
+        (void)event;
          return -1;
      }
 
@@ -51,6 +53,8 @@ public:
      * return,执行返回结果
     */
     virtual int ExecFuncFromID(int funID , void **_a){
+        (void)funID;
+        (void)_a;
         return -1;
     }
     /*
@@ -58,6 +62,7 @@ public:
      * return,执行返回结果
     */
     virtual const char * CheckParms(int funID){
+        (void)funID;
         return nullptr;
     }
     /*

@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>TextEdit.png</file>
+    </qresource>
+</RCC>

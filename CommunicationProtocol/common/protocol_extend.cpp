@@ -34,22 +34,17 @@ PROTOCOLSHARED_EXPORT int32_t SetCycReadAddrinfo(std::vector<Protocol::AddrInfoF
     //地址信息插入.
     if(Protocol::Cover == addType)
     {
-      D.m_cycReadVector.clear();
+        D.m_cycReadVector.clear();
     }
     for (std::vector<Protocol::AddrInfoForRW>::iterator it = (*addrVec).begin(); it != (*addrVec).end(); ++it) {
-       D.AddrInfoForRWOfLen(*it);//根据数据类型转读取长度.
-       AddrInfo addrInfo;
-       addrInfo.reg = it->reg;
-       addrInfo.index = it->index;
-       addrInfo.len = it->len;
-       addrInfo.varList.push_back(*it);
-       D.m_cycReadVector.push_back(addrInfo);
+        if(it->reg == Protocol_Status_Reg_Name) continue;
+        AddrInfo addrInfo;
+        addrInfo.reg = it->reg;
+        addrInfo.index = it->index;
+        addrInfo.len = it->len;
+        addrInfo.varList.push_back(*it);
+        D.m_cycReadVector.push_back(addrInfo);
     }
-
-    //地址对齐.
-    //for (auto var : D.m_cycReadVector) {
-    //   D.DealIndexAlignOfByteForRead(var.index,var.len);
-    //}
 
     //是否地址优化分块.
     if(D.m_deviceConfig.protocolInfo.isAddrOptimize)

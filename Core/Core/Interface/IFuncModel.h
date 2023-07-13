@@ -12,6 +12,11 @@ public:
     //模块初始化.
     virtual int Init(std::shared_ptr<interface_comm> &comm) = 0;
 
+    //属性编辑
+    virtual int ConfigEditShow(){
+        return -1;
+    }
+
     //Run循环
     //返回值：-1表示退出循环调用
     virtual int Run(){

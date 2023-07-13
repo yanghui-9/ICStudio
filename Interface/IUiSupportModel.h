@@ -23,9 +23,6 @@ public:
     //模块初始化.
     virtual int Init(std::shared_ptr<interface_comm> &comm) = 0;
 
-    //设置日志.
-    virtual int Log(IAPP::Log_Type type,const std::string &sErrCode,const std::string &overview) = 0;
-
     //前端数据读写.
     virtual int SetValue(const std::string &name,const UiVariant &var) = 0;
     virtual int GetValue(const std::string &name,UiVariant &var) = 0;

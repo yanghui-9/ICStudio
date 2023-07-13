@@ -34,26 +34,31 @@ CONFIG(debug, debug|release){
 
 LIBS += -L$$libPath
 
-TARGET = bitButton
-
-HEADERS += \
-    ../ItemProEditDlgBase.h \
-    ../item_base.h \
-    bitButton.h \
-    bitButtonProDlg.h
-
-SOURCES += \
-    ../ItemProEditDlgBase.cpp \
-    bitButton.cpp \
-    bitButtonProDlg.cpp
-
-
+#App
+LIBS += -L$$libPath -lApp
 #Interface
 INCLUDEPATH +=  $$PWD/../../../Interface
 
-DISTFILES += \
-    Bit Button.png \
-    Bit Button.png
+TARGET = textEdit
+
+HEADERS += \
+    ../BackgroundSettingsW.h \
+    ../ItemHelper.h \
+    ../ItemProEditDlgBase.h \
+    ../LabelBase.h \
+    ../item_base.h \
+    textEdit.h \
+    textEditProDlg.h
+
+SOURCES += \
+    ../BackgroundSettingsW.cpp \
+    ../ItemHelper.cpp \
+    ../ItemProEditDlgBase.cpp \
+    ../LabelBase.cpp \
+    textEdit.cpp \
+    textEditProDlg.cpp
+
+INCLUDEPATH +=  ../../../MesHost/MesHost/Interface
 
 RESOURCES += \
     image.qrc

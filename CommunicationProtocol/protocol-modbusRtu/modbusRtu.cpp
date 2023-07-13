@@ -7,9 +7,6 @@
 #include "service.h"
 #include "typedefheader.h"
 
-#include "../../communication/communicationdef.h"
-#include "../../communication/communicationglobal.h"
-
 using namespace Protocol;
 
 modbusRtu::modbusRtu()
@@ -32,13 +29,13 @@ void modbusRtu::Init()
     D.m_deviceConfig.protocolInfo.communicationInterval = 20;
     D.m_deviceConfig.protocolInfo.retryTimes = 3;
     D.m_deviceConfig.protocolInfo.RWThreshold = 3;//优先级阈值.
-    D.m_deviceConfig.protocolInfo.byteOrder16 = AB;//字节序.
+    D.m_deviceConfig.protocolInfo.byteOrder16 = BA;//字节序.
     D.m_deviceConfig.protocolInfo.byteOrder32 = ABCD;
     D.m_deviceConfig.protocolInfo.masterOrSlave = Master;//主站从站.
-    D.m_deviceConfig.protocolInfo.bitPackageMax = 120*4;   //位最大长度组包.
+    D.m_deviceConfig.protocolInfo.bitPackageMax = 120*8;   //位最大长度组包.
     D.m_deviceConfig.protocolInfo.wordPackageMax = 120*2;  //字最大长度组包.
-    D.m_deviceConfig.protocolInfo.bitPackageInterval = 16*4;//位组包最大间隔长度.
-    D.m_deviceConfig.protocolInfo.wordPackageInterval = 16;//字组包最大间隔长度.
+    D.m_deviceConfig.protocolInfo.bitPackageInterval = 16;//位组包最大间隔长度.
+    D.m_deviceConfig.protocolInfo.wordPackageInterval = 16*2;//字组包最大间隔长度.
     D.m_deviceConfig.protocolInfo.nonstandardParameters = "";//非标准参数.
 
     //2.初始化特殊配置.
@@ -48,6 +45,11 @@ void modbusRtu::Init()
     //3.初始化寄存器基本信息.
     D.m_regInfoMap.clear();
     D.m_regInfoMap.emplace("0x",RegInfo{"0x","DDDD",65535,1,readWrite,1});
+    D.m_regInfoMap.emplace("1x",RegInfo{"1x","DDDD",65535,1,readOnly,1});
+    D.m_regInfoMap.emplace("3x",RegInfo{"3x","DDDD",65535,1,readOnly,16});
+    D.m_regInfoMap.emplace("3x_bit",RegInfo{"3x","DDDD",65535,1,readOnly,1});
+    D.m_regInfoMap.emplace("4x",RegInfo{"4x","DDDD",65535,1,readWrite,16});
+    D.m_regInfoMap.emplace("4x_bit",RegInfo{"3x","DDDD",65535,1,readWrite,1});
     D.AddCommStatusRegInfo();
 }
 
@@ -90,7 +92,7 @@ int32_t modbusRtu::ReadFrame(const std::vector<AddrInfo> &addrInfo)
     frame.send[3] = static_cast<char>( (addr) );
 
     //长度
-    uint32_t len = vInfo.len;
+    uint64_t len = vInfo.len;
     frame.send[4] = static_cast<char> (len >> 8);//长度
     frame.send[5] = static_cast<char> (len);
 
@@ -104,12 +106,18 @@ int32_t modbusRtu::ReadFrame(const std::vector<AddrInfo> &addrInfo)
     //槽号.
     //再计算长度.
     frame.sendLen = 8;
-    frame.recvLen =  static_cast<int32_t>(6);
+    if("1x" == vInfo.reg || "0x" == vInfo.reg)
+    {
+       frame.recvLen = 5 +  (vInfo.len%8 == 0? (vInfo.len/8) : (vInfo.len/8+1));
+    }
+    else
+    {
+        frame.recvLen = 5 +  vInfo.len*2;
+    }
 
     //配置解析参数
     frame.readList.clear();
     vInfo.beginIndex = 3;
-    vInfo.bitOffset = 0;
     frame.readList.push_back(vInfo);
 
     //入队

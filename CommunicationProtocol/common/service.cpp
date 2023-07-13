@@ -9,7 +9,7 @@
 #include "../../communication/communicationglobal.h"
 
 #include "glog/logging.h"
-#include "../../MesHost/MesHost/Interface/IApp.h"
+#include "../../Interface/IApp.h"
 
 using namespace Protocol;
 
@@ -39,7 +39,7 @@ int32_t Device::RecvData()
         ushort ret =  static_cast<ushort>( m_comm.get()->OpenComm() );
         //if(0 != ret)
         {//连接失败.
-            SetDataFromAddrAndDatatype(Protocol_Status_Reg_Name,0,Protocol::ubit16,ret);
+            SetDataFromAddrAndDatatype(Protocol_Status_Reg_Name,Protocol_Status_CommStatus,Protocol::ubit16,ret);
         }
     }
     else if (ret > 0)
@@ -190,7 +190,7 @@ void Device::InitDevice(std::shared_ptr<ICommunication> &comm)
            int32_t ret = m_comm->OpenComm();
            if(0 != ret)
            {//通讯打开失败.
-              SetDataFromAddrAndDatatype(Protocol_Status_Reg_Name,0,ubit16,static_cast<ushort>( ret ));
+              SetDataFromAddrAndDatatype(Protocol_Status_Reg_Name,Protocol_Status_CommStatus,ubit16,static_cast<ushort>( ret ));
            }
         }
     }
@@ -205,7 +205,7 @@ void Device::InitDevice(std::shared_ptr<ICommunication> &comm)
                 int32_t ret = ptrComm->OpenComm();
                 if(0 != ret)
                 {//通讯打开失败.
-                   SetDataFromAddrAndDatatype(Protocol_Status_Reg_Name,0,ubit16,static_cast<ushort>( ret ));
+                   SetDataFromAddrAndDatatype(Protocol_Status_Reg_Name,Protocol_Status_CommStatus,ubit16,static_cast<ushort>( ret ));
                 }
                 m_comm = ptrComm;
             }
@@ -285,10 +285,6 @@ void Device::Variant2Char(const DataVariant &dataV, char *value)
         short s;
         s = std::get<short>(dataV) ;
         memcpy(value,&s,2);
-        if(m_MDevice)
-        {
-            m_MDevice->DealByteOrder(value,bit16);
-        }
     }
         break;
     case ubit16:
@@ -296,10 +292,6 @@ void Device::Variant2Char(const DataVariant &dataV, char *value)
         unsigned short us;
         us = std::get<unsigned short>(dataV) ;
         memcpy(value,&us,2);
-        if(m_MDevice)
-        {
-            m_MDevice->DealByteOrder(value,ubit16);
-        }
     }
         break;
     case ubit32:
@@ -307,10 +299,6 @@ void Device::Variant2Char(const DataVariant &dataV, char *value)
         uint32_t ui;
         ui = std::get<uint32_t>(dataV) ;
         memcpy(value,&ui,4);
-        if(m_MDevice)
-        {
-            m_MDevice->DealByteOrder(value,ubit32);
-        }
     }
         break;
     case bit32:
@@ -318,10 +306,6 @@ void Device::Variant2Char(const DataVariant &dataV, char *value)
         int32_t i;
         i = std::get<int32_t>(dataV) ;
         memcpy(value,&i,4);
-        if(m_MDevice)
-        {
-            m_MDevice->DealByteOrder(value,bit32);
-        }
     }
         break;
     case float32:
@@ -329,10 +313,6 @@ void Device::Variant2Char(const DataVariant &dataV, char *value)
         float i;
         i = std::get<float>(dataV) ;
         memcpy(value,&i,4);
-        if(m_MDevice)
-        {
-            m_MDevice->DealByteOrder(value,bit32);
-        }
     }
         break;
     case ubit64:
@@ -340,10 +320,6 @@ void Device::Variant2Char(const DataVariant &dataV, char *value)
         uint64_t i;
         i = std::get<uint64_t>(dataV) ;
         memcpy(value,&i,8);
-        if(m_MDevice)
-        {
-            //m_MDevice->DealByteOrder(value,bit32);
-        }
     }
         break;
     case bit64:
@@ -351,10 +327,6 @@ void Device::Variant2Char(const DataVariant &dataV, char *value)
         int64_t i;
         i = std::get<int64_t>(dataV) ;
         memcpy(value,&i,8);
-        if(m_MDevice)
-        {
-            //m_MDevice->DealByteOrder(value,bit32);
-        }
     }
         break;
     case double64:
@@ -362,10 +334,6 @@ void Device::Variant2Char(const DataVariant &dataV, char *value)
         double i;
         i = std::get<double>(dataV) ;
         memcpy(value,&i,8);
-        if(m_MDevice)
-        {
-            //m_MDevice->DealByteOrder(value,bit32);
-        }
     }
         break;
     case string:
@@ -567,7 +535,7 @@ void Device::MergeAddr(Type type)
 
 #ifdef DEBUG_LOG
         for (const auto &var : addrList) {
-           LOG(INFO)<<"******begin: "<<var.reg<<var.index<<var.len;
+           LOG(INFO)<<"******begin: "<<var.reg <<" "<<var.index<<" "<<var.len;
         }
 #endif
         //1.先排序.
@@ -575,7 +543,7 @@ void Device::MergeAddr(Type type)
 
 #ifdef DEBUG_LOG
         for (const auto &var : addrList) {
-            LOG(INFO)<<"******sort: "<<var.reg<<var.index<<var.len;
+            LOG(INFO)<<"******sort: "<<var.reg<<" "<<var.index<<" "<<var.len;
         }
 #endif
 
@@ -623,7 +591,7 @@ void Device::MergeAddr(Type type)
         }
 #ifdef DEBUG_LOG
         for (const auto &var : addrList) {
-            LOG(INFO)<<"******deduplication+merging: "<<var.reg<<var.index<<var.len;
+            LOG(INFO)<<"******deduplication+merging: "<<var.reg<<" "<<var.index<<" "<<var.len;
         }
 #endif
         //放入循环读取列表.
@@ -929,50 +897,6 @@ int32_t Device::BuildSendFrame(std::vector<Protocol::AddrInfoForRW> &addrVec)
     return ret;
 }
 
-void Device::AddrInfoForRWOfLen(AddrInfoForRW &addrForRW)
-{
-    switch (addrForRW.dataType) {
-    case Protocol::bit:
-    {
-        addrForRW.len = 1;
-        //DealIndexAlignOfByteForRead(addrForRW.index,addrForRW.len);
-    }
-        break;
-    case Protocol::bit8:
-    case Protocol::ubit8:
-    {
-        addrForRW.len = 8;
-    }
-        break;
-    case Protocol::ubit16:
-    case Protocol::bit16:
-    {
-        addrForRW.len = 16;
-    }
-        break;
-    case Protocol::ubit32:
-    case Protocol::bit32:
-    case Protocol::float32:
-    {
-        addrForRW.len = 32;
-    }
-        break;
-    case Protocol::ubit64:
-    case Protocol::bit64:
-    case Protocol::double64:
-    {
-        addrForRW.len = 64;
-    }
-        break;
-    case Protocol::string:
-    {
-    }
-        break;
-    default:
-        break;
-    }
-}
-
 int32_t Device::GetLastData(AddrInfoForRW &addr)
 {
     int32_t ret = Protocol_Rtn_Success;
@@ -1000,7 +924,8 @@ int32_t Device::GetLastData(AddrInfoForRW &addr)
             uint64_t len = addr.len;
             //初始化buf.
             std::vector<char> bufv;
-            bufv.resize(len%8 == 0 ?len/8:len/8+1);
+            if(Protocol::string == addr.dataType) bufv.resize(len*8);
+            else bufv.resize(len*8);//最大的数据类型是8字节
             //一次性获取数据.
             if(-1 == m_DataAreaDeal.GetDataFromAddr(addr.reg,addr.index,len,bufv.data()))
             {
@@ -1042,7 +967,8 @@ int32_t Device::SetLastData(Protocol::AddrInfoForRW &addr)
         uint64_t len = addr.len;
         //初始化buf.
         std::vector<char> bufv;
-        bufv.resize(len%8 == 0 ?len/8:len/8+1);
+        if(Protocol::string == addr.dataType) bufv.resize(len*8);
+        else bufv.resize(len*8);//最大的数据类型是8字节
         //数据转换.
         Variant2Char(addr.value,bufv.data());
         //判断字和位.
@@ -1074,7 +1000,7 @@ int32_t Device::GetDataFromAddrAndDatatype(const std::string &reg, const uint64_
         return 0;
     }
     //填充长度
-    GetBitNumFromDatatype(addr.dataType,addr.len);
+    GetBitNumFromDatatype(addr.reg,addr.dataType,addr.len);
     return -1;
 }
 
@@ -1090,7 +1016,7 @@ int32_t Device::SetDataFromAddrAndDatatype(const std::string &reg, const uint64_
         addr.len = std::get<std::string>(data).size()*8;
     }
     //填充长度
-    GetBitNumFromDatatype(addr.dataType,addr.len);
+    GetBitNumFromDatatype(addr.reg,addr.dataType,addr.len);
     return SetLastData(addr);
 }
 
@@ -1206,7 +1132,7 @@ int32_t Device::Process(std::vector<AddrInfoForRW> &addrList)
                 ushort ret =  static_cast<ushort>( m_comm.get()->OpenComm() );
                 //if(0 != ret)
                 {//连接失败.
-                    SetDataFromAddrAndDatatype(Protocol_Status_Reg_Name,0,Protocol::ubit16,ret);
+                    SetDataFromAddrAndDatatype(Protocol_Status_Reg_Name,Protocol_Status_CommStatus,Protocol::ubit16,ret);
                 }
             }
             //开始接收处理数据.
@@ -1285,13 +1211,13 @@ LOG(INFO)<<"******"<<__func__<<" :"<<addr.reg<<" "<<addr.index<<" "<<addr.len<<"
     //CompleteByByte(addr.index,addr.len);
 
     //通过数据类型转换长度
-    GetBitNumFromDatatype(addr.dataType,addr.len);
+    GetBitNumFromDatatype(addr.reg,addr.dataType,addr.len);
 
     return ret;
 }
 
 
-void Device::GetBitNumFromDatatype(Protocol_DataType dataType, uint64_t &bitNum)
+void Device::GetBitNumFromDatatype(const std::string &reg,Protocol_DataType dataType, uint64_t &bitNum)
 {
     switch (dataType) {
     case bit:
@@ -1335,6 +1261,12 @@ void Device::GetBitNumFromDatatype(Protocol_DataType dataType, uint64_t &bitNum)
         //
     }
     }
+
+    //转换
+    int32_t iUnit = GetRegUint(reg);
+
+    if(-1 != iUnit) bitNum = bitNum/static_cast<uint32_t>( iUnit );
+    if(0 == bitNum) bitNum = 1;
 }
 
 void Device::InitFrame(Frame &frame)
@@ -1348,12 +1280,12 @@ void Device::InitFrame(Frame &frame)
 
 void Device::AddCommStatusRegInfo()
 {
-    m_regInfoMap.emplace(Protocol_Status_Reg_Name,RegInfo{Protocol_Status_Reg_Name,"DDDD",255,0,readOnly,8});
+    m_regInfoMap.emplace(Protocol_Status_Reg_Name,RegInfo{Protocol_Status_Reg_Name,"DDDD",255,0,readWrite,16});
 }
 
 void Device::UpdataProcessResultToDataArea(int32_t ret, const std::vector<AddrInfoForRW> &addrList)
 {
-    SetDataFromAddrAndDatatype(Protocol_Status_Reg_Name,16,Protocol::ubit16,ushort(ret));
+    SetDataFromAddrAndDatatype(Protocol_Status_Reg_Name,Protocol_Status_ErrCode,Protocol::ubit16,ushort(ret));
     switch (ret) {
     case Protocol_Process_R_NoData:
     case Protocol_Process_W_NoData:

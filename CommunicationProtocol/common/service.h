@@ -83,9 +83,6 @@ public:
     //一轮通讯结束结果处理.
     void DealCommunicationFinish(int32_t optFlag, const Frame &curFrame , int32_t result);
 
-    //地址数据结构转换.
-    void AddrInfoForRWOfLen(Protocol::AddrInfoForRW &addrForRW);
-
     //获取地址缓存中的数据.
     int32_t GetLastData(Protocol::AddrInfoForRW &addr);
     //设置地址缓存中的数据.
@@ -117,7 +114,7 @@ public:
     int32_t TagDeal(Protocol::AddrInfoForRW &addr);
 
     //通过数据类型获取位数.
-    void GetBitNumFromDatatype(Protocol::Protocol_DataType dataType, uint64_t &bitNum);
+    void GetBitNumFromDatatype(const std::string &reg, Protocol::Protocol_DataType dataType, uint64_t &bitNum);
 
     //初始化Frame.
     void InitFrame(Frame &frame);

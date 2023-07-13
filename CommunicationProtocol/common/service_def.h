@@ -2,7 +2,7 @@
 #define SERVICE_DEF_H
 #include "protocol_type.h"
 
-#define ADDRESS_AREA_UNIT (32)
+#define ADDRESS_AREA_UNIT (256)
 #define RECV_BUFF_MAX     (10240)
 
 //地址信息（读写组帧使用）.
@@ -94,6 +94,7 @@ struct Data_Area
     std::string reg;
     uint64_t    index;
     char        data[ADDRESS_AREA_UNIT] = {0};
+    //std::vector<char> data;
     bool operator < (const Data_Area & info) const
     {
         int ret = strcmp(reg.data(),info.reg.data());

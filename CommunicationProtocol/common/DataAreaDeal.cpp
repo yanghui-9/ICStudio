@@ -1,6 +1,7 @@
 ﻿#include "DataAreaDeal.h"
 #include <glog/logging.h>
 #include "typedefheader.h"
+#include "service.h"
 
 DataAreaDeal::DataAreaDeal()
 {
@@ -44,30 +45,39 @@ int32_t DataAreaDeal::GetDataFromAddr(const std::string &reg, uint64_t index, ui
 #ifdef DEBUG_LOG
     LOG(INFO)<<"******"<<__func__<<":"<<reg<<index<<" "<<len;
 #endif
-    std::set<Data_Area>::iterator it = GetDataAreaIterator(reg,index);
-    if(it == m_dataArea.end())
-    {
-        return -1;
-    }
-    char *src = const_cast<char *>( it->data );
-    if(0 == bitOffset%8)
-    {//没有位偏移
-        uint64_t times = len >> 3;
-        uint64_t remainder = len % 8;
-        memcpy(data+(bitOffset>>3),src,times);
-        for(uint32_t i = 0; i < remainder; ++i)
-        {
-            SetBit(data+(bitOffset>>3)+times,i,GetBit(src+times,i));
-        }
-    }
-    else
-    {
-        for(uint32_t i = 0; i < len ; ++i)
-        {
-            SetBit(data,i+bitOffset,GetBit(src,i));
-        }
-    }
-    return 0;
+   //获取寄存器基本单位 & dataLen转换为位单位
+   int32_t iUnit = Device::GetInstance().GetRegUint(reg);
+   if(-1 == iUnit)
+   {
+       return -1;
+   }
+   len = len * static_cast<uint32_t>(iUnit);
+
+   //查询该地址变量
+   std::set<Data_Area>::iterator it = GetDataAreaIterator(reg,index);
+   if(it == m_dataArea.end())
+   {
+       return -1;
+   }
+   char *src = const_cast<char *>( it->data );
+   if(0 == bitOffset%8)
+   {//没有位偏移
+       uint64_t times = len >> 3;
+       uint64_t remainder = len % 8;
+       memcpy(data+(bitOffset>>3),src,times);
+       for(uint32_t i = 0; i < remainder; ++i)
+       {
+           SetBit(data+(bitOffset>>3)+times,i,GetBit(src+times,i));
+       }
+   }
+   else
+   {
+       for(uint32_t i = 0; i < len ; ++i)
+       {
+           SetBit(data,i+bitOffset,GetBit(src,i));
+       }
+   }
+   return 0;
 }
 
 int32_t DataAreaDeal::SetDataFromAddr(const std::string &reg, uint64_t index, uint64_t dataLen, char *data, uint16_t bitOffset)
@@ -75,12 +85,23 @@ int32_t DataAreaDeal::SetDataFromAddr(const std::string &reg, uint64_t index, ui
 #ifdef DEBUG_LOG
     LOG(INFO)<<"******"<<__func__<<":"<<reg<<index<<" "<<dataLen;
 #endif
+    //获取寄存器基本单位 & dataLen转换为位单位
+   int32_t iUnit = Device::GetInstance().GetRegUint(reg);
+   if(-1 == iUnit)
+   {
+       return -1;
+   }
+   dataLen = dataLen * static_cast<uint32_t>(iUnit);
+
+   //查询该地址变量
    std::set<Data_Area>::iterator it = GetDataAreaIterator(reg,index);
    if(it == m_dataArea.end())
    {
        return -1;
    }
-   char *dst = const_cast<char *>( it->data );
+   //resize(dataLen%8 == 0 ?dataLen/8:dataLen/8+1);
+   char *dst = const_cast<char *>( it->data);
+
    //开始设置值
    bool valueChangeFlag = false;
    if(0 == bitOffset%8)

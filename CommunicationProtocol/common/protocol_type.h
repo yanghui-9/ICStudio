@@ -26,6 +26,8 @@
 #define DataVariant_Null (0)
 
 #define Protocol_Status_Reg_Name "status"
+#define Protocol_Status_CommStatus (0)
+#define Protocol_Status_ErrCode    (1)
 
 class ICommunication;
 

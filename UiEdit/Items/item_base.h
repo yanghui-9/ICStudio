@@ -25,19 +25,7 @@ class item_base : public interface_item
 {
     Q_OBJECT
 public:
-    item_base(QWidget *parent = nullptr):interface_item(parent){
-#if 0
-        //获取主窗口指针
-        foreach(QWidget * w, qApp->topLevelWidgets()){
-            QString sssss = w->metaObject()->className();
-            if(w->metaObject()->className() == QStringLiteral("MainWindow"))
-            {
-                m_mainWin = w;
-                break;
-            }
-        }
-#endif
-    }
+    item_base(QWidget *parent = nullptr):interface_item(parent){}
     virtual ~item_base(){
         if(m_proEditDlg)
         {
@@ -67,7 +55,7 @@ protected:
         itemProChangeOfMode();
     }
     //更新控件
-    void itemUpdate()
+    virtual void itemUpdate()
     {
        QMetaObject::invokeMethod(this,"update",Qt::QueuedConnection);
     }
@@ -141,6 +129,11 @@ protected:
         {//编辑模式下
             paintSelectRect();//判断是否选中，绘制选择边线
         }
+        if(m_w)
+        {//如果有绑定控件的情况下
+            m_w->resize(width()-20,height()-20);
+            m_w->move(10,10);
+        }
     }
     void paintSelectRect(){
         if(property("isSelected").toBool())
@@ -154,17 +147,6 @@ protected:
             painter.setPen(QPen(Qt::blue, 8, Qt::DashLine));
             painter.drawRect(static_cast<int>(normalrectF.x()),static_cast<int>(normalrectF.y())
                              ,static_cast<int>(normalrectF.width()),static_cast<int>(normalrectF.height()));
-            // 缩放点
-            //QPolygonF polygon;
-            //polygon.append( normalrectF.topLeft());
-            //polygon.append( normalrectF.bottomRight() );
-            //polygon.append( normalrectF.bottomLeft() );
-            //polygon.append( normalrectF.topRight() );
-            //painter.setPen(QPen(QBrush(Qt::black), 5));
-            //for (int i = 0; i < polygon.count(); i++)
-            //{
-            //    painter.drawPoint(polygon.at(i));
-            //}
         }
     }
 

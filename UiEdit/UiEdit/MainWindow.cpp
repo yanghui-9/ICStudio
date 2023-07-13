@@ -302,6 +302,10 @@ void MainWindow::InitMenuBar()
     viewMenu->addAction(m_combineItemsToolbar->toggleViewAction());
     menuBar->addMenu(viewMenu);
 
+    //扩展
+    QMenu * extendMenu = new QMenu(QString::fromLocal8Bit("扩展"),menuBar);
+    menuBar->addMenu(extendMenu);
+
     //设置菜单
     QMenu * settingMenu = new QMenu(QString::fromLocal8Bit("设置"),menuBar);
     QList<QAction*> settingAcs = m_settingToolbar->actions();
