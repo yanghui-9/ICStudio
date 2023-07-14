@@ -17,6 +17,7 @@
 #include <QFileDialog>
 #include <QProcess>
 #include <QSettings>
+#include <QJsonParseError>
 
 #include <memory>
 
@@ -53,12 +54,7 @@ void MainWindow::initUI()
     m_varTable = std::make_shared<VariableTable>();
 
     //模式选择编辑or运行
-    if(QMessageBox::No == QMessageBox::question(this,QString::fromLocal8Bit("模式选择"),QString::fromLocal8Bit("是否进入编辑模式？")))
-    {
-        m_isEditMode = false;
-        //设置无窗口边框
-        setWindowFlag(Qt::FramelessWindowHint);
-    }
+    DealModelSelect();
 
    //设定窗口尺寸参数
     setMinimumSize(1600,900);//设置最小size
@@ -763,6 +759,43 @@ void MainWindow::InitExtendMenu(QMenu * extendMenu)
          QAction * ac =  new QAction(name,this);
          connect(ac,SIGNAL(triggered()),this,SLOT(extendMenuSlot()));
          extendMenu->addAction( ac);
+    }
+}
+
+void MainWindow::DealModelSelect()
+{
+    //读配置文件获取待加载模块名.
+    // 打开json文件.
+    int iModel = 0;
+    QFile jsonFIle("system/systemConfig.json");
+    if( jsonFIle.open(QIODevice::ReadWrite))
+    {
+        QJsonParseError jsonParserError;
+        QJsonDocument outDoc = QJsonDocument::fromJson(jsonFIle.readAll(),&jsonParserError);
+        jsonFIle.close();
+        // 文档不空 && jsonParserError解析没有错误，解析成功返回true.
+        if(!outDoc.isNull() && (jsonParserError.error == QJsonParseError::NoError))
+        {
+            QJsonObject objRoot =  outDoc.object();
+            iModel =  objRoot["systemParams"].toObject().value("model").toInt(0);
+        }
+    }
+
+    //模式选择编辑or运行
+    if(0 == iModel)
+    {
+        if(QMessageBox::No == QMessageBox::question(this,QString::fromLocal8Bit("模式选择"),QString::fromLocal8Bit("是否进入编辑模式？")))
+        {
+            m_isEditMode = false;
+            //设置无窗口边框
+            setWindowFlag(Qt::FramelessWindowHint);
+        }
+    }
+    else if (2 == iModel)
+    {//运行模式
+        m_isEditMode = false;
+        //设置无窗口边框
+        setWindowFlag(Qt::FramelessWindowHint);
     }
 }
 

@@ -1,5 +1,6 @@
 {
-  "systemParams": {
-    "iLogDirMaxSize": 2
-  }
+    "systemParams": {
+        "iLogDirMaxSize": 100,
+        "model": 2
+    }
 }

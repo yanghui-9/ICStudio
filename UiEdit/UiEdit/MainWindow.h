@@ -72,6 +72,8 @@ protected:
     void LoadCombineItems(const QString &sList);
     //初始化扩展菜单
     void InitExtendMenu(QMenu *extendMenu);
+    //处理模式选择
+    void DealModelSelect();
 
 public slots:
     //新建
