@@ -138,9 +138,9 @@ int32_t modbusRtu::CheckFrame(Frame &recvF)
     //1.长度，校验码，帧序号，帧头帧尾固定字段等等
     if(recvF.recv.size() != static_cast<uint32_t>( recvF.recvLen ) )
     {
-        return -1;
+        return Device::error;
     }
-    return 0;
+    return Device::normal;
 }
 
 int32_t modbusRtu::GetVersion(std::string &sVersion)

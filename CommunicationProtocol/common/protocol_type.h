@@ -6,7 +6,6 @@
 #include <functional>
 
 //返回值定义.
-#define Protocol_Process_Null (0xffff)
 #define Protocol_Process_R_Suc (0)
 #define Protocol_Process_R_NoData (1)
 #define Protocol_Process_R_CheckError (2)
@@ -14,6 +13,7 @@
 #define Protocol_Process_W_NoData (4)
 #define Protocol_Process_W_CheckError (5)
 #define Protocol_Process_W_DataTypeError (6)
+#define Protocol_Process_Retry           (7)
 
 
 #define Protocol_Rtn_Success (0)

@@ -50,8 +50,8 @@
             "z_class_name": "TextEdit",
             "z_h": 50,
             "z_w": 92,
-            "z_x": 219,
-            "z_y": 193
+            "z_x": 259,
+            "z_y": 196
         },
         {
             "text": "status0",
@@ -70,6 +70,24 @@
             "z_w": 92,
             "z_x": 506,
             "z_y": 100
+        },
+        {
+            "text": "4x2",
+            "var": "4x2",
+            "z_class_name": "TextEdit",
+            "z_h": 50,
+            "z_w": 92,
+            "z_x": 358,
+            "z_y": 196
+        },
+        {
+            "text": "4x10",
+            "var": "4x10",
+            "z_class_name": "TextEdit",
+            "z_h": 50,
+            "z_w": 92,
+            "z_x": 468,
+            "z_y": 196
         }
     ],
     "z_name": "NEW000",

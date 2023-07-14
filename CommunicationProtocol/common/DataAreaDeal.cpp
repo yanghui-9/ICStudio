@@ -89,7 +89,7 @@ int32_t DataAreaDeal::SetDataFromAddr(const std::string &reg, uint64_t index, ui
    int32_t iUnit = Device::GetInstance().GetRegUint(reg);
    if(-1 == iUnit)
    {
-       return -1;
+       return Device::error;
    }
    dataLen = dataLen * static_cast<uint32_t>(iUnit);
 
@@ -97,7 +97,7 @@ int32_t DataAreaDeal::SetDataFromAddr(const std::string &reg, uint64_t index, ui
    std::set<Data_Area>::iterator it = GetDataAreaIterator(reg,index);
    if(it == m_dataArea.end())
    {
-       return -1;
+       return Device::error;
    }
    //resize(dataLen%8 == 0 ?dataLen/8:dataLen/8+1);
    char *dst = const_cast<char *>( it->data);
@@ -140,7 +140,7 @@ int32_t DataAreaDeal::SetDataFromAddr(const std::string &reg, uint64_t index, ui
        m_ValueChangeDeal->DealAddrValueChangeCB(reg,index,0);
    }
 
-   return 0;
+   return Device::normal;
 }
 
 int32_t DataAreaDeal::SetRegValueChangeCallback(std::vector<Protocol::AddrInfoForRW> &addrVec, Protocol::Add_Type addType)

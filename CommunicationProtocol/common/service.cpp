@@ -85,8 +85,9 @@ int32_t Device::RecvData()
             }
             //m_curFrameList.clear();
         }
-        else {
-          ret = Protocol_Process_Null;
+        else
+        {
+          ret = Protocol_Process_Retry;
         }
     }
         break;
@@ -628,12 +629,12 @@ void Device::MergeAddr(Type type)
 int32_t Device::AnalysisFrame(Frame &recvF)
 {
     static int32_t ret;
-    ret = 0;
+    ret = normal;
 
     //1.校验帧格式.
     if(m_MDevice)
         ret = m_MDevice->CheckFrame(recvF);
-    if(0 != ret)
+    if(normal != ret)
     {//帧校验失败退出.
         //通讯完成处理.
         //DealCommunicationFinish(m_optFlag,recvF,ret);
@@ -680,7 +681,7 @@ int32_t Device::AnalysisFrame(Frame &recvF)
     //通讯完成处理.
     //DealCommunicationFinish(m_optFlag,recvF,0);
 
-    return 0;
+    return ret;
 }
 
 void Device::DealCommunicationFinish(int32_t optFlag,const Frame &curFrame, int32_t result)
@@ -1097,7 +1098,7 @@ int32_t Device::Process(std::vector<AddrInfoForRW> &addrList)
     #ifdef DEBUG_LOG
     if(0 < m_curFrameList.size())
     {
-        LOG(INFO)<<"*****Process"<<m_optFlag;
+        LOG(INFO)<<"*****Process "<<m_optFlag;
         foreach (auto addr, addrList) {
             LOG(INFO)<<"***"<<addr.reg<<" "<<addr.index<<" "<<addr.len<<" "<<addr.dataType;
         }
@@ -1140,7 +1141,7 @@ int32_t Device::Process(std::vector<AddrInfoForRW> &addrList)
             //更新通讯结果到状态寄存器,并判断异常日志写入.
             UpdataProcessResultToDataArea(ret,addrList);
             //处理结果.
-            if(Protocol_Process_R_Suc != ret && Protocol_Process_W_Suc != ret && Protocol_Process_Null != ret)
+            if(Protocol_Process_R_Suc != ret && Protocol_Process_W_Suc != ret && Protocol_Process_Retry != ret)
             {//通信（重试过）不成功,直接清掉当前发送队列.
                 m_curFrameList.clear();
                 break;
@@ -1285,6 +1286,10 @@ void Device::AddCommStatusRegInfo()
 
 void Device::UpdataProcessResultToDataArea(int32_t ret, const std::vector<AddrInfoForRW> &addrList)
 {
+    static int32_t oldRet = 0;
+    if(oldRet == ret){return;}
+    else {oldRet = ret;}
+
     SetDataFromAddrAndDatatype(Protocol_Status_Reg_Name,Protocol_Status_ErrCode,Protocol::ubit16,ushort(ret));
     switch (ret) {
     case Protocol_Process_R_NoData:

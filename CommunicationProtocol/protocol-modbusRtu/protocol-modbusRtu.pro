@@ -13,7 +13,7 @@ DEFINES += PROTOCOL_LIBRARY
 #通讯协议格式为标签格式
 #DEFINES += TAG_MODE
 #运行调试日志
-DEFINES += DEBUG_LOG
+#DEFINES += DEBUG_LOG
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which has been marked as deprecated (the exact warnings

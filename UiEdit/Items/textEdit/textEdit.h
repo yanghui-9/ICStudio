@@ -30,7 +30,7 @@ protected:
 private:
     //std::shared_ptr<QImage> m_on;
     //std::shared_ptr<QImage> m_off;
-    QString m_text = "";
+    QString m_text = "0";
 };
 
 
