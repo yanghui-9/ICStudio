@@ -11,6 +11,12 @@ public:
     //模块初始化
     virtual int Init(std::shared_ptr<interface_comm> &comm);
 
+    virtual int ShowConfigEditDlg();
+
+    virtual std::string GetFuncName(){
+        return "test1";
+    }
+
     void test000(int i){}
     void test000(int i) const {}
     void test000(double d){}

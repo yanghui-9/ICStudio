@@ -16,12 +16,18 @@
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QProcess>
+#include <QSettings>
+
+#include <memory>
+
 #include "Gallery/Gallery.h"
 #include "VariableTable/VariableTable.h"
 #include "CustomComponentsDlg.h"
 #include "DisplayCustomComponentsDlg.h"
 
 #include "Tools/tools.h"
+#include "IApp.h"
+#include "IFuncModel.h"
 
 MainWindow::MainWindow(std::shared_ptr<interface_comm> comm, QWidget *parent) :
     QMainWindow(parent),m_comm(comm)
@@ -304,6 +310,7 @@ void MainWindow::InitMenuBar()
 
     //扩展
     QMenu * extendMenu = new QMenu(QString::fromLocal8Bit("扩展"),menuBar);
+    InitExtendMenu(extendMenu);
     menuBar->addMenu(extendMenu);
 
     //设置菜单
@@ -505,6 +512,23 @@ void MainWindow::importProjectSlot()
         {
             OpenCurrentSession();
             QMessageBox::information(this,QStringLiteral("导入"),QStringLiteral("导入成功"));
+        }
+    }
+}
+
+void MainWindow::extendMenuSlot()
+{
+    QAction * sendAC = qobject_cast<QAction*>(sender());
+    if(sendAC)
+    {
+        std::shared_ptr<ZObject> modelPtr;
+        if(-1 != zApp->GetModelFromName(sendAC->text().toStdString(),modelPtr))
+        {
+            std::shared_ptr<FuncModel> ifunmodel = std::dynamic_pointer_cast<FuncModel>(modelPtr);
+            if(ifunmodel)
+            {
+                ifunmodel->ShowConfigEditDlg();
+            }
         }
     }
 }
@@ -726,6 +750,19 @@ void MainWindow::LoadCombineItems(const QString &sList)
                 m_combineItemsToolbar->addSeparator();
             }
         }
+    }
+}
+
+void MainWindow::InitExtendMenu(QMenu * extendMenu)
+{
+    //读配置文件获取待加载模块名.
+    QSettings sysini("project/system.ini",QSettings::IniFormat);
+    QStringList sFuncNameList = sysini.value("backstage").toString().split(',');
+
+    for (const auto & name : sFuncNameList) {
+         QAction * ac =  new QAction(name,this);
+         connect(ac,SIGNAL(triggered()),this,SLOT(extendMenuSlot()));
+         extendMenu->addAction( ac);
     }
 }
 

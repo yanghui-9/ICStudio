@@ -34,6 +34,9 @@ HEADERS +=     test1.h
 
 SOURCES +=     test1.cpp
 
+#GLOG
+LIBS += -L$$PWD/../../3rdparty/glog/lib/ -lglog
+INCLUDEPATH += $$PWD/../../3rdparty/glog/include
 #App
 LIBS += -L$$libPath -lApp
 #Interface

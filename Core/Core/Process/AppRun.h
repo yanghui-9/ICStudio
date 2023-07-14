@@ -27,6 +27,9 @@ public:
     //初始化.
     void InitRun();
 
+    //通过名称获取模块指针
+    virtual int GetModelFromName(const std::string &name, std::shared_ptr<ZObject> &model);
+
     //通过ID获取模块指针.
     virtual ZObject * GetFuncModelFromID(int ID)
     {

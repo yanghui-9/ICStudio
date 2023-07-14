@@ -34,6 +34,7 @@ enum Func_Call_Type
 };
 
 class IUiModel;
+class ZObject;
 class HEvent;
 class Y_EXPORT IAPP
 {
@@ -96,6 +97,9 @@ public:
     virtual void PostEvent(HEvent *event,Event_Pri_Type type = Event_Nor) = 0;
     //同步
     virtual void SendEvent(HEvent *event) = 0;
+
+    //获取模块对象通过名称
+    virtual int GetModelFromName(const std::string &name, std::shared_ptr<ZObject> &model) = 0;
 
     //注册功能调用
     virtual bool InvokeMethod(uint ID,Func_Call_Type callType,

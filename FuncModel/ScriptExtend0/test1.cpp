@@ -3,6 +3,7 @@
 #include "extend_func_def.h"
 #include "extend_func_head.h"
 #include "lua.hpp"
+#include "glog/logging.h"
 
 FuncModel *CreateFunc()
 {
@@ -17,6 +18,12 @@ int test1::Init(std::shared_ptr<interface_comm> &comm)
     //IAPP::GetIntance()->InvokeMethod(Extend_Script_Register,Z_ARG(ScriptFunc,test1::l_test1));
     //IAPP::GetIntance()->InvokeMethod(Extend_Script_Register,Z_ARG(ScriptFunc,test1::l_test1),Z_ARG(std::string,1));
     return  0;
+}
+
+int test1::ShowConfigEditDlg()
+{
+    LOG(INFO) << "ShowConfigEditDlg";
+    return 0;
 }
 
 #include <QDebug>

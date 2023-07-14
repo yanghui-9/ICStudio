@@ -18,6 +18,12 @@ public:
         return -1;
     }
 
+    //编辑显示
+    virtual int ShowConfigEditDlg()
+    {
+        return -1;
+    }
+
     //获取循环Run间隔时间单位ms
     //返回值：-1 表示无需循环Run,非-1表示循环调用间隔时间
     virtual int GetRunIntervalTime(){

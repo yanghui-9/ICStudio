@@ -70,6 +70,8 @@ protected:
     void ShowMenu();
     //通过配置加载自定义组件工具栏
     void LoadCombineItems(const QString &sList);
+    //初始化扩展菜单
+    void InitExtendMenu(QMenu *extendMenu);
 
 public slots:
     //新建
@@ -92,6 +94,8 @@ public slots:
     void exportProjectSlot();
     //导出
     void importProjectSlot();
+    //扩展菜单点击
+    void extendMenuSlot();
 
 private:
     //工具栏

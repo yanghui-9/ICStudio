@@ -87,6 +87,17 @@ void AppRun::InitRun()
     //IAPP::InvokeMethod(0,Z_RETURN_ARG(int,i),Z_ARG(int,1),Z_ARG(int32_t,20));
 }
 
+int AppRun::GetModelFromName(const std::string &name, std::shared_ptr<ZObject> &model)
+{
+    for (const auto &iModel : m_funcModel) {
+        if(iModel->GetFuncName() == name){
+            model = iModel;
+            return 0;
+        }
+    }
+    return -1;
+}
+
 bool AppRun::Event(HEvent *event)
 {
     bool bDeal = true;
