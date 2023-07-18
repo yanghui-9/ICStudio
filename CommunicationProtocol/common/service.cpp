@@ -925,7 +925,7 @@ int32_t Device::GetLastData(AddrInfoForRW &addr)
             uint64_t len = addr.len;
             //初始化buf.
             std::vector<char> bufv;
-            if(Protocol::string == addr.dataType) bufv.resize(len*8);
+            if(Protocol::string == addr.dataType) bufv.resize(len);
             else bufv.resize(len*8);//最大的数据类型是8字节
             //一次性获取数据.
             if(-1 == m_DataAreaDeal.GetDataFromAddr(addr.reg,addr.index,len,bufv.data()))
@@ -1014,7 +1014,7 @@ int32_t Device::SetDataFromAddrAndDatatype(const std::string &reg, const uint64_
     addr.value = data;
     if(string == dataType)
     {//字符串计算长度.
-        addr.len = std::get<std::string>(data).size()*8;
+        addr.len = std::get<std::string>(data).size();
     }
     //填充长度
     GetBitNumFromDatatype(addr.reg,addr.dataType,addr.len);
