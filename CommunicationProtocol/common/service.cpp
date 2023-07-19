@@ -925,8 +925,18 @@ int32_t Device::GetLastData(AddrInfoForRW &addr)
             uint64_t len = addr.len;
             //初始化buf.
             std::vector<char> bufv;
-            if(Protocol::string == addr.dataType) bufv.resize(len);
-            else bufv.resize(len*8);//最大的数据类型是8字节
+            if(Protocol::string == addr.dataType)
+            {
+                int32_t iUnit = GetRegUint(addr.reg);
+                if(Protocol_Rtn_Fail != iUnit)
+                    bufv.resize(len*(static_cast<uint32_t>(iUnit)/8));
+                else
+                    bufv.resize(len*8);
+            }
+            else
+            {
+                bufv.resize(len*8);//最大的数据类型是8字节
+            }
             //一次性获取数据.
             if(-1 == m_DataAreaDeal.GetDataFromAddr(addr.reg,addr.index,len,bufv.data()))
             {
