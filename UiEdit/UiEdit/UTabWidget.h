@@ -26,12 +26,15 @@ public:
 
     //画面操作
     int setCurScene(const QString &name);
-    int addScene(QString name, UWidgetScene *scene);
+    void setCurScene(UWidgetScene *scene);
+    int addScene(QString name, UWidgetScene *scene, bool isScene = false);
     int deleteScene(const QString &name);
     int deleteScene(UWidgetScene *scene);
+    UWidgetScene* getSceneFromName(const QString &name);
 
     //编译
     QStringList compile();
+
     //处理编译错误
     void dealCompileError(QStringList &errInfoList);
 
@@ -54,6 +57,8 @@ public slots:
 private:
     //记录当前画面
     QString m_curSceneID = "";
+    //记录前一个窗口
+    QString m_windowID = "";
     QMap<QString,UWidgetScene*> m_sceneList;
     //主窗口
     MainWindow * m_mainW;
@@ -68,6 +73,9 @@ private:
 
     //当前画面列表，开机时初始化
     QStringList m_sSceneList;
+
+    //运行时弹出窗口
+    UTabWidget *m_windowTab = nullptr;
 
     //QScrollBar *hscrollbar;
     //QScrollBar *vscrollbar;

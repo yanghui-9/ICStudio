@@ -59,11 +59,12 @@ public:
     //删除指定控件
     void removeItemObject(QList<QWidget*> items, bool isUndo = false);
 
-    ///类型操作
-    int getType(){return m_type;}
-    void setType(int type){m_type = type;}
+    ///基本操作
+    int getType(){ return m_sceneObj["z_type"].toInt(0); }
+    void setType(int type){ m_sceneObj["z_type"] = type; }
     QString getSceneName(){return m_name;}
     void setSceneName(QString name){m_name = name;}
+    QRect getSceneRect();
 
     //编辑action
     void ItemUndo();//undo
@@ -136,6 +137,9 @@ public:
     //通过json加载控件
     void loadItemsFromJson(QJsonArray &itemArray, QList<QWidget *> &itemList, QWidget *parent = nullptr);
 
+    //显示窗口
+    void ShowWindow(QWidget * window, QRect rect);
+
 protected:
     //采集地址信息（切换画面时）
     void AssociateAddressAndItem();
@@ -198,8 +202,6 @@ private:
     //画面配置数据（json）
     QString m_sceneObject;
     QJsonObject m_sceneObj;
-    //类型
-    int m_type;
     //画面名称
     QString m_name;
     //模式

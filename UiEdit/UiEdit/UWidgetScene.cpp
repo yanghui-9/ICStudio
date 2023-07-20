@@ -19,8 +19,9 @@
 #include "extend_func_head.h"
 
 UWidgetScene::UWidgetScene(int type, QString name, UTabWidget *view):
-    QWidget(nullptr) ,m_view(view),m_type(type),m_name(name)
+    QWidget(nullptr) ,m_view(view),m_name(name)
 {
+    (void)type;
     //undo/redo
     m_sceneUndoStack = new QUndoStack(this);
     m_sceneUndoStack->setUndoLimit(UNDO_LIMIT);
@@ -93,6 +94,13 @@ void UWidgetScene::loadItemsFromJson(QJsonArray &itemArray,QList<QWidget *> &ite
             }
         }
     }
+}
+
+void UWidgetScene::ShowWindow(QWidget *window, QRect rect)
+{
+    window->setParent(this);
+    window->setGeometry(rect.x(),rect.y(),rect.width(),rect.height());
+    window->setVisible(true);
 }
 
 void UWidgetScene::saveItemsFromJson(QJsonArray &itemArray,QList<QWidget *> &itemList)
@@ -202,7 +210,6 @@ void UWidgetScene::loadSceneItem(const QString &sdata)
     {
         m_sceneObj = outDoc.object();
         //画面属性
-        m_type = m_sceneObj["z_type"].toInt(UTabWidget::Scene);
         m_name = m_sceneObj["z_name"].toString();
         if(m_sceneObj.value("z_items").isArray())
         {//item array
@@ -222,7 +229,7 @@ void UWidgetScene::saveSceneItem(QString &sdata)
 {
     //画面属性
     m_sceneObj["z_name"] = m_name;
-    m_sceneObj["z_type"] = m_type;
+    m_sceneObj["z_type"] = m_sceneObj["z_type"].toInt(UTabWidget::Scene);
 
     //处理画面控件属性保存
     QJsonArray itemsArray;
@@ -282,7 +289,7 @@ void UWidgetScene::initScenePropertyFromObj()
     {
         move(m_sceneObj["x"].toInt(0),m_sceneObj["y"].toInt(0));
         resize(m_sceneObj["w"].toInt(800),m_sceneObj["h"].toInt(600));
-        m_type = UTabWidget::Window;
+        m_sceneObj["z_type"] = UTabWidget::Window;
     }
 }
 
@@ -339,6 +346,15 @@ void UWidgetScene::dealScenceOpen()
             m_cycScript.start(m_sceneObj["script_cycle_interval"].toInt(1000));
         }
     }
+    else
+    {
+        //窗口
+        if(1 == m_sceneObj["window"].toInt(0))
+        {
+            move(m_sceneObj["x"].toInt(0),m_sceneObj["y"].toInt(0));
+            resize(m_sceneObj["w"].toInt(800),m_sceneObj["h"].toInt(600));
+        }
+    }
 }
 
 void UWidgetScene::reflashAllItem()
@@ -359,6 +375,14 @@ void UWidgetScene::removeItemObject(QList<QWidget *> items, bool isUndo)
     {
         m_sceneUndoStack->push(new UDelUndo(this,items));
     }
+}
+
+QRect UWidgetScene::getSceneRect()
+{
+    return QRect(m_sceneObj["x"].toInt(0),
+            m_sceneObj["y"].toInt(0),
+            m_sceneObj["w"].toInt(800),
+            m_sceneObj["h"].toInt(600));
 }
 
 void UWidgetScene::ItemUndo()

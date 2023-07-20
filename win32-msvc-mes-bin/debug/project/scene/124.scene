@@ -1,6 +1,7 @@
 {
     "background_color": null,
     "background_type": null,
+    "script": null,
     "window": null,
     "z_items": [
         {
@@ -21,7 +22,7 @@
                     "background_color": 14474460,
                     "background_type": 0,
                     "scene": "122",
-                    "text": "切换",
+                    "text": "切换122窗口",
                     "z_class_name": "Scene Button",
                     "z_h": 50,
                     "z_w": 132,

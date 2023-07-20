@@ -1,7 +1,12 @@
 {
-    "background_color": null,
-    "background_type": null,
-    "window": null,
+    "background_color": 14474460,
+    "background_type": 0,
+    "h": 400,
+    "script": null,
+    "w": 600,
+    "window": 1,
+    "x": 100,
+    "y": 100,
     "z_items": [
         {
             "background_color": 14474460,
@@ -11,8 +16,8 @@
             "z_class_name": "Scene Button",
             "z_h": 69,
             "z_w": 232,
-            "z_x": 153,
-            "z_y": 60
+            "z_x": 35,
+            "z_y": 36
         },
         {
             "off_img": "off1",
@@ -36,5 +41,5 @@
         }
     ],
     "z_name": "NEW000",
-    "z_type": 0
+    "z_type": 1
 }
