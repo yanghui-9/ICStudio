@@ -70,6 +70,7 @@ textEdit::textEdit(QWidget *parent):item_base(parent)
 void textEdit::initWidget()
 {
     m_w = new QTextEdit(this);
+    m_w->resize(1,1);
     m_w->show();
     itemUpdate();
     //m_w->resize(50,50);
