@@ -93,7 +93,7 @@ int UTabWidget::addScene(QString name, UWidgetScene *scene, bool isScene)
     else
     {
         scene->setVisible(true);
-        scene->setGeometry(0,0,1024,600);
+        //scene->setGeometry(0,0,1024,600);
         scene->setMainStatusBar(m_mainW->m_statusBar);
         m_sceneList.insert(name,scene);
         addTab(scene,name);
@@ -131,6 +131,10 @@ UWidgetScene *UTabWidget::getSceneFromName(const QString &name)
     {
         m_mainW->OpenFromFile(QApplication::applicationDirPath()+WORKSPACE+"/"+ name +".scene");
         sRet = dynamic_cast<UWidgetScene*>( m_sceneList.value(name,nullptr) );
+        if(!sRet && m_windowTab)
+        {
+            sRet = m_windowTab->getSceneFromName(name);
+        }
     }
     return sRet;
 }

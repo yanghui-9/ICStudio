@@ -569,6 +569,20 @@ void MainWindow::SaveCurrentSession()
         }
         dataS << sScrptList.join("#");
         int iCurScript = m_View->currentIndex();
+        //判断当前画面是否是窗口，窗口不能保存为首画面
+        UWidgetScene * iScene = m_View->getSceneFromName(m_View->tabText(iCurScript));
+        if(!iScene || UTabWidget::Window == iScene->getType() )
+        {//查找第一个画面
+            iCurScript = 0;
+            for (int i = 0; i < m_View->count(); ++i) {
+               UWidgetScene* iS = qobject_cast<UWidgetScene*>(m_View->widget(i));
+               if(iS && UTabWidget::Scene == iS->getType())
+               {
+                   iCurScript = i;
+                   break;
+               }
+            }
+        }
         dataS << iCurScript;
         dataS << m_customSelectItems;
         dFile.close();

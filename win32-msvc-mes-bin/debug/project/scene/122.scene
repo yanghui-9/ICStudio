@@ -5,8 +5,8 @@
     "script": null,
     "w": 600,
     "window": 1,
-    "x": 100,
-    "y": 100,
+    "x": 400,
+    "y": 200,
     "z_items": [
         {
             "background_color": 14474460,
@@ -16,8 +16,8 @@
             "z_class_name": "Scene Button",
             "z_h": 69,
             "z_w": 232,
-            "z_x": 35,
-            "z_y": 36
+            "z_x": 136,
+            "z_y": 87
         },
         {
             "off_img": "off1",
